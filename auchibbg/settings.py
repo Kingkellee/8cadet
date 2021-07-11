@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -149,6 +150,17 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Deployment
+
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
+
+
 
 LOGIN_REDIRECT_URL = "/"
 
@@ -186,3 +198,5 @@ MAILCHIMP_DATA_CENTER = config('MAILCHIMP_DATA_CENTER')
 MAILCHIMP_EMAIL_LIST_ID = config('MAILCHIMP_EMAIL_LIST_ID')
 
 DATE_INPUT_FORMATS = ['%Y']
+
+django_heroku.settings(locals())
