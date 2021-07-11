@@ -1,0 +1,63 @@
+{% load thumbnail %}
+{% load hitcount_tags %}
+<div class="row align-items-center mb-5">
+    {% if post_list %}
+    {% for post in post_list %}
+    <div class="col-lg-6 mb-5">
+        <a class="d-block mb-4" href={{post.get_absolute_url}}>
+            <img class="img-fluid w-100" src="{% thumbnail post.header_image 640x380 crop="-10,4" %}" alt="" />
+        </a>
+    </div>
+    <div class="col-lg-6">
+        <ul class="list-inline">
+            <li class="list-inline-item mr-2">
+                {% for c in post.category.all %}
+                    {% if forloop.first %}
+                        <a class="category-link font-weight-normal" href={{c.get_absolute_url}}>
+                            {{ c }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </li>
+            <li class="list-inline-item mx-2">
+                <a class="text-uppercase meta-link font-weight-normal" href="{% url 'user-posts' post.author.username %}"> 
+                   <i class="fas fa-user-tie"></i> {{ post.author.first_name }} 
+                </a>
+            </li>
+            <li class="list-inline-item mx-2">
+                <p class="text-uppercase meta-link font-weight-normal">
+                    <i class="fas fa-calendar-alt"></i> {{post.created_on|date:"F d, Y"}}
+                </p>
+            </li>
+            <li class="list-inline-item mx-2">
+                <p class="text-uppercase meta-link font-weight-normal">
+                    <i class="far fa-eye"></i></i> {% get_hit_count for post %}
+                </p>
+            </li>
+        </ul>
+        <h2 class="h3 mb-4"> 
+            <a class="d-block reset-anchor" href="{% url 'post-detail' post.slug  %}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p class="text-muted">{{ post.content|striptags|truncatechars:220 }}</p>
+        <a class="btn btn-link p-0 read-more-btn" href="{% url 'post-detail' post.slug  %}">
+            <span>Read more</span><i class="fas fa-long-arrow-alt-right"></i>
+        </a>
+        <p>
+            <span>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'post-detail' post.slug  %}"><i class="fa fa-comments"></i>: {{post.comments.count}}&emsp;</a>
+                  {% if user.id == post.author.id %}
+                      <a href="{% url 'update_post' post.slug  %}"><i class="fa fa-edit"></i>&emsp;</a>
+                      <a href="{% url 'delete_post' post.slug  %}"><i class="fa fa-trash"></i></a>
+                  {% endif %}
+                {% endif %}
+            </span>
+        </p>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p class="lead text-muted">No items to display.</p>
+    {% endif %}
+</div>

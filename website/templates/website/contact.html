@@ -1,0 +1,339 @@
+{% extends 'website/base.html' %}
+
+{% block title %} Contact {% endblock title %}
+
+{% block content %}
+<style>
+/* ---------------------Get in Touch---------------------- */
+#contact {
+  background: whitesmoke;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  color: #777777;
+}
+
+.form-style{
+max-width:450px;
+padding:30px;
+margin:40px auto;
+background: #FFF;
+border-radius: 10px;
+-webkit-border-radius:10px;
+-moz-border-radius: 10px;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+}
+.form-style .form-control{
+padding: 30px;
+background: #F8F8F8;
+border-radius: 6px;
+margin-bottom: 15px;
+}
+.form-style h1{
+background: #2A88AD;
+padding: 20px 30px 15px 30px;
+margin: -30px -30px 30px -30px;
+border-radius: 10px 10px 0 0;
+-webkit-border-radius: 10px 10px 0 0;
+-moz-border-radius: 10px 10px 0 0;
+color: #fff;
+text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+font: normal 30px 'Bitter', serif;
+-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+border: 1px solid #257C9E;
+}
+.form-style h1 > span{
+display: block;
+margin-top: 2px;
+font: 13px Arial, Helvetica, sans-serif;
+}
+.form-style label{
+display: block;
+font: 13px Arial, Helvetica, sans-serif;
+color: #888;
+margin-bottom: 15px;
+}
+.form-style input[type="text"],
+.form-style input[type="date"],
+.form-style input[type="datetime"],
+.form-style input[type="email"],
+.form-style input[type="number"],
+.form-style input[type="search"],
+.form-style input[type="time"],
+.form-style input[type="url"],
+.form-style input[type="password"],
+.form-style textarea,
+.form-style select {
+display: block;
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+width: 100%;
+padding: 8px;
+border-radius: 6px;
+-webkit-border-radius:6px;
+-moz-border-radius:6px;
+border: 2px solid #fff;
+box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+-moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
+}
+
+.form-style .section{
+font: normal 20px 'Bitter', serif;
+color: #2A88AD;
+margin-bottom: 5px;
+}
+
+.form-style .section span {
+background: #2A88AD;
+padding: 5px 10px 5px 10px;
+position: absolute;
+border-radius: 50%;
+-webkit-border-radius: 50%;
+-moz-border-radius: 50%;
+border: 4px solid #fff;
+font-size: 14px;
+margin-left: -45px;
+color: #fff;
+margin-top: -3px;
+}
+.form-style input[type="button"], 
+.form-style input[type="submit"]{
+background: #2A88AD;
+padding: 8px 20px 8px 20px;
+border-radius: 5px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+color: #fff;
+text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
+font: normal 30px 'Bitter', serif;
+-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
+border: 1px solid #257C9E;
+font-size: 15px;
+}
+.form-style input[type="button"]:hover, 
+.form-style input[type="submit"]:hover{
+background: #2A6881;
+-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
+-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
+box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
+}
+
+.form-control {
+  border-radius: 10px !important;
+  border: 1px solid!important;
+  padding: 5px 15px;
+}
+
+ul.two-columns {
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+  column-count: 2;
+}
+
+/* -------------------------------------Tags---------------------*/
+.bootstrap-tagsinput {
+border: solid 1px #e9ecee;
+border-radius: 0;
+color: #8e9091;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+height: 48px;
+padding: 8px 20px;
+font-size: 16px;
+}
+.bootstrap-tagsinput input {
+border: none;
+border-radius: 0;
+color: #8e9091;
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+
+}
+.badge-tag{
+background-color: #17a2b8;
+color: white;
+}
+.bootstrap-tagsinput.form-control input::-moz-placeholder {
+color: #777;
+opacity: 1;
+}
+.bootstrap-tagsinput.form-control input:-ms-input-placeholder {
+color: #777;
+}
+.bootstrap-tagsinput.form-control input::-webkit-input-placeholder {
+color: #777;
+}
+.bootstrap-tagsinput input:focus {
+border: none;
+box-shadow: none;
+}
+.bootstrap-tagsinput .badge {
+margin-left: 4px;
+padding:8px;
+}
+.bootstrap-tagsinput .badge [data-role="remove"] {
+margin-left: 8px;
+cursor: pointer;
+}
+.bootstrap-tagsinput .badge [data-role="remove"]:after {
+content: "×";
+padding: 0px 4px;
+background-color:rgba(0, 0, 0, 0.1);
+border-radius:50%;
+font-size:13px
+}
+.bootstrap-tagsinput .badge [data-role="remove"]:hover:after {
+
+background-color:rgba(0, 0, 0, 0.62);}
+.bootstrap-tagsinput .badge [data-role="remove"]:hover:active {
+box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+
+/*------------------------------------ Contact Area --------------------------------------*/
+
+.contact-area {
+position: relative;
+z-index: 1;
+
+.google-maps {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 470px;
+  @media #{$breakpoint-xs} {
+    height: 280px;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+}
+}
+
+.contact-information {
+position: relative;
+z-index: 1;
+padding: 30px 50px;
+background-color: $primary;
+border-radius: 3px;
+@media #{$breakpoint-xs} {
+  margin-bottom: 100px;
+}
+
+h5 {
+  color: $white;
+}
+
+p {
+  color: $white;
+}
+}
+
+
+
+</style>
+    <div class="container-fluid contact-form">
+    <div class="contact-image">
+    </div>
+        <div class="row"> <!-- row start -->
+            <div class="col-12">
+              <div class="google-maps mb-100">
+                <iframe style="width: 100%; height: 400px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3191.3880678992728!2d6.272842!3d7.0573991!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10467d7bc1e89a33%3A0x7245688154207b1c!2sAuchi%20Polytechnic%20Hostel!5e1!3m2!1sen!2sng!4v1625840946212!5m2!1sen!2sng"  allowfullscreen="">
+                </iframe>
+              </div>
+            </div>
+        </div> <!-- row close -->
+        <br>
+        < <div class="row contact-area"> <!-- row start -->
+            <!-- Contact Information -->
+            <div class="col-md-6"> 
+          <div class="contact-information">
+                    <h2 style="text-align: center;">Address</h2>
+                    <br>
+                    <br>
+
+                    <h5><i class="fa fa-map-marker"></i> Back of Hostel L, Auchi Polytechnic Hostel, Benin-Auchi Road, Auchi, Edo State, Nigeria.</h5>
+                    <br>
+
+                    <h5><i class="fa fa-phone"></i> +2349031139477</h5>
+                    <br>
+
+                    <!-- <h5><i class="fa fa-envelope"></i> </h5> -->
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-md-6">
+                <h2 style="text-align: center;">Contact Us</h2>
+                <br>
+                <br>
+                <div class="contact-form">
+                    {% include 'website/alert_msg.html' with messages=messages %}
+                    <div class="form-style">
+                        
+                        <form action="" method="post">
+                            {% csrf_token %}
+
+                            <div class="section"><span>1</span>
+                                Contact Info
+                            </div>
+                            <div class="form-group">
+                                <label>Your Full Name {{form.name}}</label>
+                                <label>Email Address {{form.email}}</label>
+                            </div>
+          
+                            <div class="section"><span>2</span>
+                                Send Us a Message
+                            </div>
+                            <div class="form-group">
+                                <label>Subject {{form.subject}}</label>
+                                <label>Message {{form.message}}</label>
+                            </div>
+                            <div class="button-section">
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- row end -->
+    <!-- <form method="post" >
+        {% csrf_token %}
+        <h3>Drop Us a Message</h3>
+       <div class="row">
+            <div class="col-md-6">
+                {% include 'website/alert_msg.html' with messages=messages %}
+                <div class="form-group">
+                    <input type="text" name="txtName" class="form-control" placeholder="Your Name *" value="" required/>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="txtEmail" class="form-control" placeholder="Your Email *" value="" required/>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="txtPhone" class="form-control" placeholder="Your Phone Number *" value="" required />
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <textarea name="txtMsg" class="form-control" placeholder="Your Message *" style="width: 100%; height: 150px;" required></textarea>
+                </div>
+            </div>
+        </div>
+    </form> -->
+    </div>
+{% endblock content %}

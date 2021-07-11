@@ -1,0 +1,101 @@
+{% extends "website/base.html" %}
+{% load hitcount_tags %}
+{% block title %} Blog {% endblock %}
+{% block gallery_navbar %}  {% endblock gallery_navbar %}
+{% block content %}
+
+{% if featured_post %}
+  <section class="bg-white pb-5">
+    <div class="container px-0 pnb-4">
+      <div class="row align-items-center">
+        <div class="col-lg-12">
+          <div class="post-thumnail">
+            <img class="img-fluid w-100" style='height:480px' src={{featured_post.header_image.url}} alt="">
+          </div>
+        </div>
+        <div class="col-lg-6 mx-auto text-center">
+          <ul class="list-inline">
+            <li class="list-inline-item mr-3">
+              {% for c in featured_post.categories.all %}
+                {% if forloop.counter == 1 or forloop.counter == 2%}
+                  <a class="category-link font-weight-normal" href={{c.get_absolute_url}} style='border-right:1px solid white'> {{ c }} </a>
+                {% endif %}
+              {% endfor %}
+            </li>
+            <li class="list-inline-item mx-3">
+            <a class="text-uppercase meta-link font-weight-normal" href="{% url 'user-posts' username=featured_post.author.username %}">
+              <i class="fas fa-user-tie"></i> {{featured_post.author}}
+              </a>
+              </li>
+            <li class="list-inline-item mx-3">
+            <p class="text-uppercase meta-link font-weight-normal">
+              <i class="fas fa-calendar-alt"></i> {{featured_post.created_on|date:"F d, Y"}}</p>
+            </li>
+            <li class="list-inline-item mx-2">
+                <p class="text-uppercase meta-link font-weight-normal">
+                    <i class="far fa-eye"></i></i> {% get_hit_count for featured_post %}
+                </p>
+            </li>
+          </ul>
+            <h1 class="mb-4"> <a class="reset-anchor" href={{featured_post.get_absolute_url}}>{{featured_post.title}}</a></h1>
+            <p class="text-muted">{{featured_post.content|striptags|truncatechars:220}}</p>
+            <a class="btn btn-link p-0 read-more-btn" href={{featured_post.get_absolute_url}}><span>Read more</span><i class="fas fa-long-arrow-alt-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <hr>
+  {% endif %}
+
+<!-- Blog Page-->
+<section class="py-5">
+  <div class="container py-4">
+    <div class="row">
+      <!--latest post-->
+      <div class="col-lg-9 mb-5 mb-lg-0">
+        {% include 'blog/post_list.html' %}
+        <!--pagination-->
+        <nav aria-label="Page navigation example">
+          {% if is_paginated %}
+            {% if page_obj.has_previous %}
+              <a class="btn btn-outline-info mb-4" href="?page=1" class="page-link">&larr; First</a>
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}" class="page-link">&larr; Previous</a>
+            {% endif %}
+      
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+              <a class="btn btn-info mb-4" href="?page={{ num }}"> {{ num }}</a>
+              {% elif num > page_obj.number|add:'-3' and page_obj.number|add:'3' > num %}
+              <a class="btn btn-outline-info mb-4" href="?page={{ num }}"> {{ num }}</a>
+              {% endif %}
+            {% endfor %}
+      
+            {% if page_obj.has_next %}
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}" class="page-link">Next &rarr;</a>
+              <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Last &rarr;</a>
+            {% endif %}
+          {% endif %}
+        </nav>
+      </div>
+
+      <!-- sidebar -->
+      <div class="col-lg-3">
+        <!-- search Section-->
+        <section class='pb-2'>
+          <div class="container pb-2">
+            <div class="bg-light" style = 'box-shadow: 0px 1px 7px 0px #9cf9f073;border-radius: 5px;'>
+                  <form action="{% url 'search' %}">
+                    <div class="input-group">
+                      <input style = 'border-radius:6px; font-family:roboto;' class="form-control" name ='q' type="search" placeholder="Search"
+                        aria-label="email address" aria-describedby="button-addon2">
+                    </div>
+                  </form>
+              </div>
+            </div>
+        </section>
+        {% include 'website/sidebar.html' %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %} 

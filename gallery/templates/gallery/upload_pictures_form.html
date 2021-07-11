@@ -1,0 +1,100 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Upload Picture{% endblock title %}
+
+{% block subpage %}
+	Upload Picture
+{% endblock %}
+
+{% block content %}
+    <div class="">
+    <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-1 pt-lg-5 ml-lg-5 pt-sm-3">
+        </div>
+        <div class="col-md-7 pl-lg-4 pt-lg-5 ml-0 p-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-info">Upload Pictures</h4>
+                    <hr>
+                        <div class="form-group row">	
+                            <label for="select" class="col-12 col-form-label">Album</label>
+                            <div class="col-12">
+                                {{ form.album|as_crispy_field }}
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header bg-light ">
+                    <button type="submit" class="btn btn-info btn-block">Upload</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 d-block mx-auto pt-lg-5 p-sm-3">
+            <div class="card mb-3">
+                <div class="card-header bg-light ">
+                    <span class="mr-3">Add Album</span>
+                   <button type="button" class="badge badge-info ml-5 pl-2" style = 'padding:8px;border:none;outline:none;margin-left:4.2rem !important' data-toggle="modal" data-target="#AddAlbumModal">
+                        New Album
+                    </button>
+                    
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header bg-light ">Featured Image</div>
+                <div class="card-body">
+                    <div class="picture-container">
+                        <div class="picture">
+                            <img src="{% static 'images/post_default.jpg' %}"  class="picture-src" id="wizardPicturePreview" title="" style="width: 300px; height: 300px">
+                            <i style='font-size:40px;bottom:10px' class="fas fa-camera"></i>
+                            {{ form.picture }}
+                        </div>
+                        <div class="card-footer bg-light">
+                            <span>You are Updating This Picture</span>
+                        </div>
+                        <label for="id_image" class=" requiredField">
+                    </div>
+
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </form>
+</div>
+<!-- Add Album Modal -->
+  <div class="modal fade" id="AddAlbumModal" tabindex="-1" role="dialog" aria-labelledby="AddAlbumModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="AddAlbumModalTitle">Add Album</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'gallery:create_album' %}" method="post">
+          {% csrf_token %}
+          <div class="modal-body">
+          	  <label for="album">Album</label>
+              <input type="text" name="name" class="form-control" id="name" placeholder="Album name...">
+              <label for="description">Description</label>
+              <input type="text" name="description" class="form-control" id="description" placeholder="description...">
+              <input type="hidden" value="AlbumCreate" name="create_album" />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">+ Add</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+
+
+

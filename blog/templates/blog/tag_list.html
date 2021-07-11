@@ -1,0 +1,8 @@
+{% extends 'website/base.html' %}
+{% block title %} {{ tag }} {% endblock %}
+
+{% block content %}
+
+  {% include 'blog/list_view.html' with posts=page_obj page_obj=page_obj tag_name=tag %}
+  
+{% endblock content %}

@@ -1,0 +1,105 @@
+{% load static %}
+
+{% if latest_posts %}
+<!-- Recent posts-->
+  <div class="card rounded-0 border-0 mb-4">
+      <div class="card-body p-0">
+          <h2 class="h5 mb-3">Recent posts</h2>
+          {% for post in latest_posts %}
+              <div class="media mb-3">
+                <a class="d-block" href={{post.get_absolute_url}}>
+                  <img class="img-fluid" src={{post.header_image.url}} alt="" width="70">
+                </a>
+                <div class="media-body ml-3">
+                  <h6><a class="reset-anchor" href={{post.get_absolute_url}}>{{post.title|truncatechars:25}}</a></h6>
+                  <p class="text-small text-muted line-height-sm mb-0">{{post.content|striptags|truncatechars:70}}</p>
+                </div>  
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+{% endif %}
+
+{% if top3_categories %}
+<!-- Categories-->
+  <div class="card rounded-0 border-0 mb-4">
+    <div class="card-body p-0">
+        <h2 class="h5 mb-3">Trending categories</h2>
+        {% for cat in top3_categories %}
+            {% if forloop.counter == 1 %}
+              <a class="category-block category-block-sm bg-center bg-cover mb-2" style="background: url({% static 'img/cat-1.jpg' %})" href={{cat.get_absolute_url}}>
+                <span class="category-block-title">{{cat}}</span>
+              </a>
+            {% endif %}
+            {% if forloop.counter == 2 %}
+              <a class="category-block category-block-sm bg-center bg-cover mb-2" style="background: url({% static 'img/cat-1.jpg' %})" href={{cat.get_absolute_url}}>
+                <span class="category-block-title">{{cat}}</span>
+              </a>
+            {% endif %}
+            {% if forloop.counter == 3 %}
+              <a class="category-block category-block-sm bg-center bg-cover mb-2" style="background: url({% static 'img/cat-1.jpg' %})" href={{cat.get_absolute_url}}>
+                <span class="category-block-title">{{cat}}</span>
+              </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% if categories %}
+  <!-- All categories-->
+  <div class="card rounded-0 border-0 mb-4">
+    <div class="card-body p-0">
+      <h2 class="h5 mb-3">All Categories</h2>
+      <ul class="list-inline">
+        {% for cat in categories %}
+        <li class="list-inline-item my-1 mr-1">
+          <a class="sidebar-tag-link text-info" href={{cat.get_absolute_url}}>{{ cat }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+
+{% if common_tags %}
+  <!-- Tags-->
+  <div class="card rounded-0 border-0 mb-4">
+    <div class="card-body p-0">
+      <h2 class="h5 mb-3">Tags cloud</h2>
+      <ul class="list-inline">
+        {% for mt in common_tags %}
+          <li class="list-inline-item my-1 mr-1"><a class="sidebar-tag-link" href="{% url 'tagged' mt.slug %}">{{ mt }}</a></li>
+        {% endfor %}
+        <!-- {% for tag in tags %}
+            <li class="list-inline-item my-1 mr-1"><a class="sidebar-tag-link" href="{% url 'tag_posts' tag=tag %}">{{ tag }}</a></li>
+        {% endfor %} -->
+      </ul>
+    </div>
+  </div>
+{% endif %}
+
+{% if all_posts %}
+  <!-- Archive -->
+  <div class="card rounded-0 border-0 mb-4">
+    <div class="card-body p-0">
+        <h2 class="h5 mb-3">Archive</h2>
+      {% regroup all_posts by created_on.year as year_list %}
+        <ul class="navbar-nav ml-auto">
+          {% for year in year_list %}
+          <li class="nav-item active">
+            {{ year.grouper }}
+            {% regroup year.list by created_on.month as month_list %}
+            <ul class="navbar-nav ml-auto">
+                  {% for month in month_list %}
+              <li class="nav-item active">
+                <a class="dropdown-item" style="color: red; font-weight: 600;" href="{% url 'post_archive_month' year.grouper month.grouper %}">{{ month.list.0.created_on|date:'b' }} ({{ month.list|length }})</a>
+              </li>
+              {% endfor %} 
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,24 @@
+{% extends "website/base.html" %}
+
+<div id="profile-page-about" class="center flow-text">
+  <!-- start Profile About  -->
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">About @{{ profile.user.username }}</span>
+      {% if profile.about %}
+        <p class="grey-text">{{ profile.about }}</p>
+      {% else %}
+      <p class="grey-text"><i>Apparently, this user prefers to keep an air of mystery about them</i>.</p>
+      {% endif %}
+    </div>
+  </div>
+  <!-- end Profile About  -->
+</div>
+<div class="container">
+  <h4 class="light" style="border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 30px;">
+    Latest
+  </h4>
+  <p class="grey-text" style="font-size: 1.2em;">Recent stories from @{{ profile.user.username }}</p>
+  {% latest_post profile.user as posts %}
+  {% include "blog/_post_list.html" %}
+{% endblock %}

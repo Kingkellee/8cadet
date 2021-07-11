@@ -1,0 +1,91 @@
+{% load thumbnail %}
+{% load hitcount_tags %}
+
+  <section class="py-3">
+     <div class="container py-4">
+       <div class="row">
+         <div class="col-lg-2"> </div>
+         <!-- Blog listing-->
+         <div class="col-lg-8 mb-5 mb-lg-0">
+          {% if tag_name %}
+            <h1 class="mb-5" style='font-family:monospace;color:green;'>Posts contain "{{tag_name|lower}}" tag</h1>
+          {% elif query %}
+            <h2 class="mb-5" style='font-family:monospace;color:green;'>Found {{found}} Post{{found|pluralize}} matching "{{query|lower}}"</h2>
+          {% elif all_posts %}
+            <h2 class="mb-5" style='font-family:monospace;color:green;'>All Post for {{ month|date:"F" }}</h2>
+          {% else %}
+            <h1 class="mb-5" style='font-family:monospace;color:green;'>All posts in "{{cats|lower}}"</h1>
+          {% endif %}
+            <!--post listing-->
+          {% if page_obj %}
+           {% for post in posts %}
+            <div class="row align-items-center mb-5">
+                  <div class="col-lg-6 mb-5">
+        <a class="d-block mb-4" href={{post.get_absolute_url}}>
+            <img class="img-fluid w-100" src="{% thumbnail post.header_image 640x380 crop="-10,4" %}" alt="" />
+        </a>
+    </div>
+              <div class="col-lg-6">
+                <ul class="list-inline">
+                  {% for c in post.categories.all %}
+                    {% if forloop.first or forloop.last%}
+                      <li class="list-inline-item mr-2"><a class="category-link font-weight-normal"
+                        href={{c.get_absolute_url}}>{{c}}</a></li>
+                    {% endif %}
+                  {% endfor %}
+                  <li class="list-inline-item mx-2">
+                    <a class="text-uppercase meta-link font-weight-normal" href="{% url 'user-posts' username=post.author.username %}">
+                    <i class="fas fa-user-tie"></i> {{post.author.username}}</a>
+                  </li>
+                  <li class="list-inline-item mx-2">
+                    <b class="text-uppercase meta-link font-weight-normal" href="#">
+                    <i class="fas fa-calendar-alt"></i> {{post.created_on|date:"F d, Y"}}</b>
+                  </li>
+                  <li class="list-inline-item mx-2">
+                <p class="text-uppercase meta-link font-weight-normal">
+                    <i class="far fa-eye"></i></i> {% get_hit_count for post %}
+                </p>
+            </li>
+                </ul>
+                <h2 class="h3 mb-4"> 
+                  <a class="d-block reset-anchor" href={{post.get_absolute_url}}>{{post.title}}</a>
+                </h2>
+                <p class="text-muted">{{post.content|striptags|truncatechars:190}}</p>
+                    <a class="btn btn-link p-0 read-more-btn" href={{post.get_absolute_url}}>
+                    <span>Read more</span> <i class="fas fa-long-arrow-alt-right"></i></a>
+              </div>
+            </div>
+           {% endfor %}
+          {% else %}
+              <h2 class='mt-5'> Sorry! No results found. Try again searching with different keyword.</h2>
+          {% endif %}
+
+
+           <!--pagination-->
+
+           
+           <nav aria-label="Page navigation example">
+              {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1{% if query %} &q={{query}}{% endif %}" class="page-link">&larr; First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}{% if query %} &q={{query}}{% endif %}" class="page-link">&larr; Previous</a>
+              {% endif %}
+              
+              {% if page_obj.has_previous or page_obj.has_next  %}
+              {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}{% if query %} &q={{query}}{% endif %}"> {{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and page_obj.number|add:'3' > num %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}{% if query %} &q={{query}}{% endif %}"> {{ num }}</a>
+                {% endif %}
+              {% endfor %}
+              {% endif %}
+              {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}{% if query %} &q={{query}}{% endif %}" class="page-link">Next &rarr;</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}{% if query %} &q={{query}}{% endif %}" class="page-link">Last &rarr;</a>
+              {% endif %}
+          </nav>
+        </div>
+      <div class="col-lg-2"> </div>
+    </div>
+  </div>
+</section>

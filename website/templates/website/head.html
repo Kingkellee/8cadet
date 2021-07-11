@@ -1,0 +1,41 @@
+{% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <!-- Bootstrap CDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Lightbox CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css'>
+    
+    {% with request.resolver_match.url_name as view_url %}
+        {% if view_url != 'add_post' or view_url != 'update_post' or view_url != 'upload_pictures' or view_url != 'update_picture' or view_url != 'add_leaders' or view_url != 'add_patrons' %}
+            <!-- Google fonts-->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&amp;display=swap">
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Satisfy&amp;display=swap">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.css"/>
+        {% endif %}
+        <!--Don't break the line in if statement, this will cause error -->
+        {% if view_url != 'admin-dashboard' and view_url != 'dashboard_posts' and view_url != 'dashboard_tags' and view_url != 'dashboard_albums' and view_url != 'dashboard_pictures' and view_url != 'dashboard_users' and view_url != 'dashboard_categories' and view_url != 'dashboard_category_posts' and view_url != 'dashboard_tag_posts' and view_url != 'dashboard_user_posts' %}
+            <!-- stylesheet default-->
+            <link rel="stylesheet" href={% static 'css/style.default.css' %} id="theme-stylesheet">  
+
+        {% else %}
+            <link href="{% static 'css/admin-site.css' %}" rel="stylesheet">
+        {% endif %}
+        
+        {% if view_url == 'add_post' or view_url == 'update_post' or view_url == 'upload_pictures' or view_url == 'update_picture' or view_url == 'add_leaders' or view_url == 'add_patrons' or  view_url == 'leader_update_by_admin' or view_url == 'patron_update_by_admin' %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css">
+            <!-- <link href="https://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet"> -->
+            <link rel="stylesheet" href="{% static 'css/add_n_update_post.css' %}">
+        {% endif %}
+        {% if view_url == 'post-detail' %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism-okaidia.min.css">
+            <link rel="stylesheet" href="{% static 'css/details_post.css' %}">
+        {% endif %}
+    {% endwith %}

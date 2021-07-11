@@ -1,0 +1,68 @@
+{% extends 'website/base.html' %}
+
+{% block title %} Album: {{ album_name }} {% endblock %}
+
+{% block blog_navbar %}  {% endblock blog_navbar %}
+
+{% block subpage %} 
+<a href="{% url 'gallery:single_album' album_name=album_name %}" class="nav-link">
+    Album: {{ album_name }} <span class="sr-only">(current)</span> 
+</a> 
+{% endblock %}
+
+ 
+{% block user_panel %}
+    {% if user.is_authenticated %}
+        <div class="my-3">
+            <ul class="list-unstyled text-center">
+                <li class="d-inline-block">
+                    <a href="{% url 'gallery:albulms' %}"><b>View Album &nbsp;</b> <i class="fa fa-list "></i></a>
+                </li>
+                <li class="d-inline-block">
+                    <a href="{% url 'gallery:update_album' album_name=album_name %}" class="pl-3"><b>Update Album &nbsp;</b><i class="fa fa-edit"></i></a></li>
+                <li class="d-inline-block">
+                    <a href="{% url 'gallery:delete_album' album_name=album_name %}" class="pl-3"><b>Delete Album &nbsp;</b><i class="fa fa-trash"></i></a></li>
+                <li class="d-inline-block">
+                    <a href="{% url 'gallery:upload_pictures' album_name=album_name %}" class="pl-3"><b>Upload Pictures &nbsp;</b><i class="fa fa-upload"></i></a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <!-- add some space -->
+        <div class="my-3">&nbsp;</div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Photo Grid -->
+
+  <div class="container-fluid py-5 bg-light">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 w-100 justify-content-md-center">
+        {% if pictures %}
+        {% for picture in pictures %}
+        <div class="col mb-3">
+          <div class="card shadow-sm h-100">
+            <a href="{% url 'gallery:single_picture' album_name=picture.album.name pk=picture.pk %}" data-caption="{{ picture.description }}" class="text-dark">
+                <img class="card-img-top rounded-0" 
+            <img class="bd-placeholder-img card-img-top" width="100%" height="500" preserveAspectRatio="xMidYMid slice" focusable="false" fill="#55595c" src="{{ picture.picture.url }}">
+            </a>
+            {% if user.is_superuser %}
+            <div class="card-body">
+                <strong>Actions:&nbsp;</strong>
+                <a href="{% url 'gallery:update_picture' album_name=album_name pk=picture.pk %}" data-toggle="tooltip" title="Update picture"><i class="fa fa-edit"></i></a>
+                <a href="{% url 'gallery:delete_picture' album_name=album_name pk=picture.pk %}" data-toggle="tooltip" title="Delete picture"><i class="fa fa-trash"></i></a>
+            </div>
+            {% endif%}
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+            <p class="lead text-muted">There are no Pictures in this ALbum....{% if user.is_superuser %}<span><a href="{% url 'gallery:upload_pictures' album_name=album_name %}" class="pl-3"><b>Upload Pictures &nbsp;</b><i class="fa fa-file-upload"></i></a></span>{% endif %}</p>
+        {% endif %}
+      </div>
+  </div>
+
+{% endblock %}
+{% block sidebar %}
+{% endblock %}

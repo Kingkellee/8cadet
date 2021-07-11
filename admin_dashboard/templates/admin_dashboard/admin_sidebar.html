@@ -1,0 +1,81 @@
+<nav class="col-md-2 d-none d-md-block sidebar" style="box-shadow: 0px 2px 14px 0px rgba(0, 0, 0, 0.09);">
+  <div class="sidebar-sticky" style="background: #fcffff;top: 65px;height: calc(100vh - 65px);">
+    <ul class="nav flex-column pt-3">
+      <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'admin-dashboard' %}active {% endif %}" href="{% url 'admin-dashboard' %}">
+          <span data-feather="home"></span>
+          Dashboard 
+          {% if request.resolver_match.url_name == 'admin-dashboard' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+      <li class="nav-item border-bottom">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard_users' %}active {% endif %}" href="{% url 'dashboard_users' %}">
+          <span data-feather="user"></span>
+          All Users
+          {% if request.resolver_match.url_name == 'dashboard_users' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+      <li class="nav-item border-bottom">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard_categories' %}active {% endif %}" href="{% url 'dashboard_categories' %}">
+          <span data-feather="book"></span>
+          All Categories
+          {% if request.resolver_match.url_name == 'dashboard_categories' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+      <li class="nav-item border-bottom">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard_posts' %}active {% endif %}" href="{% url 'dashboard_posts' %}">
+          <span data-feather="book-open"></span>
+          All Posts
+          {% if request.resolver_match.url_name == 'dashboard_posts' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard_tags' %}active {% endif %}" href="{% url 'dashboard_tags' %}">
+          <span data-feather="briefcase"></span>
+          All Tags
+          {% if request.resolver_match.url_name == 'dashboard_tags' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+      <li class="nav-item border-bottom">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard_albums' %}active {% endif %}" href="{% url 'dashboard_albums' %}">
+          <span data-feather="folder-plus"></span>
+          All Albums
+          {% if request.resolver_match.url_name == 'dashboard_albums' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard_pictures' %}active {% endif %}" href="{% url 'dashboard_pictures' %}">
+          <span data-feather="film"></span>
+          All Pictures
+          {% if request.resolver_match.url_name == 'dashboard_pictures' %}
+            <span class="sr-only">(current)</span>
+          {% endif %}
+        </a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'add_leaders' %}active {% endif %}" href="{% url 'add_leaders' %}">
+          <span data-feather="plus"></span>
+          Add Leaders
+        </a>
+      </li>
+       <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'add_patrons' %}active {% endif %}" href="{% url 'add_patrons' %}">
+          <span data-feather="plus"></span>
+          Add Patrons
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,84 @@
+h1 {
+    font-size: 40px;
+    font-weight: bold;
+    letter-spacing: -1px;
+}
+
+
+h4 {
+    font-size: 24px;
+    line-height: 28px;
+}
+
+p {
+    margin-bottom: 25px;
+}
+
+a {
+    color: rgb(84, 233, 133);
+}
+
+a:hover {
+    color: rgb(31, 122, 84);
+}
+
+blockquote {
+    display: block;
+    border-left: 4px solid #0ddfb2;
+    margin-left: -15px;
+    padding-left: 25px;
+    font-style: italic;
+    color: rgb(101, 102, 102);
+}
+
+mark {
+    background-color: yellow;
+    color: black;
+}
+
+
+/* -------------------------------------------------------------------
+ * ## blog single page navigation
+ * ------------------------------------------------------------------- */
+.detail__pagenav {
+   margin-top: 10.2rem;
+   padding-top: 1.8rem;
+   border-top: 1px solid rgba(0, 0, 0, 0.1);
+   position: relative;
+}
+
+.detail__nav:after {
+   content: "";
+   display: table;
+   clear: both;
+}
+
+.detail__nav span {
+   display: block;
+   font-family: "metropolis-medium", sans-serif;
+   font-size: 12px;
+   text-transform: uppercase;
+   letter-spacing: 2.5px;
+   color: #7f7f7f;
+   margin-bottom: 1.2rem;
+   -webkit-transition: all 0.3s ease-in-out;
+   transition: all 0.3s ease-in-out;
+}
+
+.detail__nav a {
+   font-family: "librebaskerville-bold", serif;
+   font-size: 2.2rem;
+   line-height: 1.5;
+   color: #19191b;
+}
+
+.detail__nav a:hover span, .s-content__nav a:focus span {
+   color: #19191b;
+}
+
+.detail__prev, .s-content__next {
+   width: 50%;
+   float: left;
+   padding-right: 2rem;
+}
+

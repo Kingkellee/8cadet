@@ -1,0 +1,88 @@
+{% load static %}
+
+<header>
+<div class="bg-dark">
+  <nav class="navbar navbar-expand-md sticky-top navbar-dark bg-dark flex-md-nowrap"
+  style='background-color: #3c779a!important;'>
+  <div class="container">
+    <a class="navbar-brand mr-5 pr-2" href="{% url 'kolture' %}"
+      style='background:none;box-shadow:none;'><i class="fa fa-anchor"></i> 8th Cadet</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if view_url == 'authors' %}active{% endif %}" href={% url 'authors' %}>
+            <span data-feather="users"></span>
+            Authors
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'blog-home' %}">
+            <span data-feather="globe"></span>
+            View Blog
+          </a>
+        </li>
+        <li class="px-lg-2 nav-item">
+          <a class="nav-link" href="{% url 'gallery:albums' %}">
+            <span data-feather="camera"></span>
+            Gallery
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href='{% url "about" %}'>
+            <span data-feather="briefcase"></span>
+            About Us
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href='{% url "contact" %}'>
+            <span data-feather="map"></span>
+            Contact
+          </a>
+      </ul>
+      <div class="navbar-nav">
+        <div class="nav-item dropdown">
+          <a class=" nav-link dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            
+            {% if user.is_authenticated %}
+              <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} alt="profile" style='border-radius:50%;height:32px;width:30px;'>
+              {% else %}
+              <img src="{% static 'images/default.jpg' %}" style='border-radius:50%;height:30px;width:30px;'>
+              {% endif %}
+            Profile
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% if user.is_authenticated %}
+            {% if user.profile.id %}
+            <a class="dropdown-item" href="{% url 'users:profile_update'%}">Profile</a>
+            <a class="dropdown-item" href="{% url 'user_dashboard' %}">Dashboard</a>
+            {% endif %}
+            {% if user.is_authenticated and user.is_superuser %}
+            <a class="dropdown-item" href="{% url 'admin-dashboard' %}"> Admin Panel</a>
+            {% endif %}
+            <div class="dropdown-divider"></div>
+              <form method="post" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next">
+                <a class="dropdown-item" href="#">
+                  <button id="signOutBtn" type="submit"
+                    style='background: none!important;border: none;padding: 0!important;'>Logout</button>
+                </a>
+              </form>
+          </div>
+           {% else %}
+            <a class="dropdown-item" href="{% url 'users:register' %}">Register</a>
+            <a class="dropdown-item" href="{% url 'users:login' %}">Login</a>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</nav> 
+</div>
+</header>

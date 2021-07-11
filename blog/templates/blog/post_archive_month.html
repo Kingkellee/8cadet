@@ -1,0 +1,8 @@
+{% extends 'website/base.html' %}
+{% block title %} All Post for {{ month|date:"F Y" }} {% endblock %}
+
+{% block content %}
+
+  {% include 'blog/list_view.html' with posts=page_obj page_obj=page_obj %}
+  
+{% endblock content %}

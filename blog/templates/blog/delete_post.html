@@ -1,0 +1,48 @@
+{% extends "website/base.html" %}
+
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class='pb-5 mb-5'>
+  
+  {% if user.is_authenticated %}
+   {% if user.id == post.author.id %}
+      <div class="container">
+        <div class="card text-center mt-1" style='top:1rem;'>
+          <div class="card-header">
+          {% block title %} 
+              Delete Post
+          {% endblock %}
+          </div>
+          <form method="post">
+          {% csrf_token %}
+            <div class="card-body">
+              <p class="card-text">Are you sure you want to delete "{{ post.title }}"</p>
+              <a href="{% url 'post-detail' post.slug  %}">
+                <img src="{{ post.header_image.url }}" style="width: 200px;">
+              </a>
+              <p class="card-text">"{{ post.content|striptags|truncatechars:220 }}"</p>
+
+
+              <a href="{% url 'post-detail' post.slug  %}" class="btn btn-outline-info">Cancel</a>
+              <button type='submit' class="btn btn-danger">Confirm</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    {% else %}
+    <div class="col-md-8" style="font-size: 20px; font-weight: 600;">
+    You Must be Logged in as User to Delete this Post..
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="col-md-8" style="font-size: 20px; font-weight: 600;">
+      You Must be Logged in to Delete this Post..
+    </div>
+    {% endif %}
+</section>
+    {% endblock %}
+
+   

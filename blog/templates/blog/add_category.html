@@ -1,0 +1,47 @@
+{% extends "website/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block gallery_navbar %}  {% endblock gallery_navbar %}
+
+
+{% block content %}
+  {% if user.is_authenticated %}
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="AddCategoryModalTitle">Add Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="modal-body">
+              <input type="text" name="category" class="form-control" id="category">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">+ Add</button>
+        </form>
+        </div>
+      </div>
+    </div>
+
+  <div class="col-md-8">
+
+    <h2 class="mt-4 font-italic border-bottom">
+    {% block title %} Add Category {% endblock %}
+    </h2>
+  <form action="" method="post">
+      {{ form | crispy }}    
+      {% csrf_token %}
+      <br>
+      <button type="submit" class="btn btn-primary  btn-MD">Add Category</button>
+  </form>
+  </div>
+  {% else %}
+<div class="col-md-8" style="font-size: 20px; font-weight: 600;">
+  You must be Logged in to Add a Category..
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} 
+	{% if update %} Update {% else %} Create {% endif %} Album 
+{% endblock %}
+
+{% block subpage %}
+	{% if update %} Update {% else %} Create {% endif %} Album 
+{% endblock %}
+
+{% block content %}
+ <div class="submission-form">
+    <form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-1 pt-lg-5 ml-lg-5 pt-sm-3">
+        </div>
+        <div class="col-md-7 pl-lg-4 pt-lg-5 ml-0 p-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-info">{% if update %} Update {% else %} Create {% endif %} Album</h4>
+                    <hr>
+                        <div class="form-group row">
+                            <label for="text" class="col-12 col-form-label">Album Name</label>
+                            <div class="col-12">
+                                {{ form.name|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="textarea" class="col-12 col-form-label">Description</label>
+                            <hr class="mb-2">
+                            <div class="col-12">
+                                {{ form.description|as_crispy_field}}                         
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header bg-light ">
+                    <button type="submit" class="btn btn-info btn-block">{% if update %} Update {% else %} Create {% endif %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>                                                                 
+{% endblock content %}
+
+
+   

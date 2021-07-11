@@ -1,0 +1,156 @@
+{% load static %}
+
+{% with request.resolver_match.url_name as view_url %}
+{% if view_url == 'blog-home' or view_url == 'album' or view_url == 'post-detail' %}
+<footer class="py-4" style="background: rgb(32, 32, 32)">
+<!-- Newsletter Section-->
+<section class='pb-5'>
+  <div class="container pb-4">
+    <div class="p-4 bg-light">
+      <div class="row align-items-center p-lg-3">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <h2 class="h3 mb-1">Subscribe to Newsletter</h2>
+          <p class="mb-0 text-small"> To get updatated regularly via email do subscribe.</p>
+        </div>
+        <div class="col-lg-6">
+          <form action="{% url 'subscribe' %}" method='post'>
+            {% csrf_token %}
+            <div class="input-group">
+              {{ form }} 
+
+              <!-- <input class="form-control" type="email" name='email' placeholder="Enter your email address"
+                aria-label="email address" aria-describedby="button-addon2"> -->
+              <div class="input-group-append ml-2">
+                <button class="btn btn-primary" id="button-addon2" type="submit">Subscribe</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+<!--Don't break the line in if statement, this will cause error -->
+{% if view_url != 'admin-dashboard' and view_url != 'dashboard_posts' and view_url != 'dashboard_albums' and view_url != 'dashboard_pictures' and view_url != 'dashboard_tags' and view_url != 'dashboard_users' and view_url != 'dashboard_categories' and view_url != 'dashboard_category_posts' and view_url != 'dashboard_tag_posts' and view_url != 'dashboard_user_posts' and view_url != 'album_update_by_admin' and view_url != 'pic_update_by_admin' %}
+<!--footer label-->
+  <div class="container text-center">
+    <div class="row align-items-center">
+      <div class="col-md-4 text-lg-left">
+      </div>
+
+      <div class="col-md-4 text-center">
+        <div class="d-flex align-items-center flex-wrap justify-content-center">
+          <h6 class="text-muted mb-0 py-2 mr-3">follow me<span class="ml-3">-</span></h6>
+          <ul class="list-inline small mb-0 text-white">
+             <li class="list-inline-item text-primary"><a class="reset-anchor" href="https://facebook.com/groups/501408263303168/">
+                <i class="fab fa-facebook-f"></i></a>
+            </li>
+             <li class="list-inline-item text-primary" text-primary><a class="reset-anchor" href="https://chat.whatsapp.com/LtU1GUrKpttAVo21YJ8FPt">
+                <i class="fab fa-whatsapp"></i></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4 text-lg-right">
+        <p class="mb-0 text-muted text-small text-heading">@ copyright by <a href="#" class="text-reset"><i class="fa fa-anchor"></i> 8th Cadet</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+{% else %}
+{% endif %}
+{% endwith %}
+
+
+{% with request.resolver_match.url_name as view_url %}
+<!-- JavaScript files-->
+  <!-- JQuery cdn-->
+{% if view_url != 'add_post' and view_url != 'update_post' and view_url != 'upload_pictures' and view_url != 'update_picture' and view_url != 'add_leaders' and view_url != 'add_patrons' and view_url != 'leader_update_by_admin' and view_url != 'patron_update_by_admin' %}
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
+{% endif %}
+<!--Don't break the line in if statement, this will cause error -->
+{% if view_url != 'admin-dashboard' and view_url != 'dashboard_posts' and view_url != 'pic_update_by_admin' and view_url != 'album_update_by_admin' and view_url != 'dashboard_albums' and view_url != 'dashboard_pictures' and view_url != 'dashboard_tags' and view_url != 'dashboard_users' and view_url != 'dashboard_categories' and view_url != 'dashboard_category_posts' and view_url != 'dashboard_tag_posts' and view_url != 'dashboard_user_posts' and view_url != 'add_post' and view_url != 'update_post' and view_url != 'upload_pictures' and view_url != 'update_picture' and view_url != 'add_leaders' and view_url != 'add_patrons' and view_url != 'leader_update_by_admin' and view_url != 'patron_update_by_admin' %}
+
+
+<!-- custom js-->
+<script src={% static 'js/front.js' %}></script>
+{% endif %}
+<!--Don't break the line in if statement, this will cause error -->
+{% if view_url == 'admin-dashboard' or view_url == 'dashboard_posts' or view_url == 'dashboard_albums' or view_url == 'dashboard_pictures' or view_url == 'dashboard_tags' or view_url == 'dashboard_users' or view_url == 'dashboard_categories' or view_url == 'dashboard_category_posts' or view_url == 'dashboard_tag_posts' or view_url == 'dashboard_user_posts' or view_url == 'user_dashboard' or view_url == 'ud_category_posts' or view_url == 'ud_tag_posts' or view_url == 'pic_update_by_admin' or view_url == 'album_update_by_admin' or view_url == 'albums' %}
+<script>
+  $(document).ready(function () {
+    $("#myInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#main-area .media-body").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+</script>
+<!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+  integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.27.0/feather.min.js"></script>
+<script>
+  feather.replace()
+</script>
+{% endif %}
+{% if view_url == 'add_post' or view_url == 'update_post' or view_url == 'upload_pictures' or view_url == 'update_picture' or view_url == 'add_leaders' or view_url == 'add_patrons' or  view_url == 'leader_update_by_admin' or view_url == 'patron_update_by_admin' %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-core.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-classapplier.min.js"></script>
+<script src="{% static 'js/add_update_post.js' %}"></script>
+{% endif %}
+
+{% if view_url == 'add_leaders' or view_url == 'add_patrons' or view_url == 'leader_update_by_admin' or view_url == 'patron_update_by_admin' %}
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script>
+$(document).ready(function() {
+  $('.datepicker').datepicker();
+});
+</script>
+{% endif %}
+
+{% if view_url == 'post-detail'%}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-python.min.js"></script>
+  <script>
+    $("pre").wrapInner('<code class="language-python"></code>');
+  </script>
+{% endif %}
+
+{% if view_url == 'about' %}
+<script>
+var swiper = new Swiper('.blog-slider', {
+    spaceBetween: 30,
+    effect: 'fade',
+    loop: true,
+    mousewheel: {
+      invert: false,
+    },
+    // autoHeight: true,
+    pagination: {
+      el: '.blog-slider__pagination',
+      clickable: true,
+    }
+  });
+</script>
+{% endif %}
+{% endwith %}

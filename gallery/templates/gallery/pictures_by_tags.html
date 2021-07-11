@@ -1,0 +1,41 @@
+{% extends 'website/base.html' %}
+
+{% block title %} Tag: ... {% endblock %}
+
+{% block blog_navbar %}  {% endblock blog_navbar %}
+
+{% block content %}
+
+{% block gallery_sidebar %}
+{% endblock gallery_sidebar %}
+
+<h4> Pictures in {{ tag }}</h4>
+<hr>
+<div class="container-fluid justify-content-center ">
+	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 w-100 justify-content-md-center">
+        {% if pictures %}
+        {% for picture in pictures %}
+        <div class="col mb-3">
+          <div class="card shadow-sm h-100">
+            <a href="{% url 'gallery:single_picture' album_name=picture.album.name pk=picture.pk %}" data-caption="{{ picture.description }}" class="text-dark">
+                <img class="card-img-top rounded-0" 
+            <img class="bd-placeholder-img card-img-top" width="100%" height="500" preserveAspectRatio="xMidYMid slice" focusable="false" fill="#55595c" src="{{ picture.picture.url }}">
+            </a>
+            {% if user.is_superuser %}
+            <div class="card-body">
+                <strong>Actions:&nbsp;</strong>
+                <a href="{% url 'gallery:update_picture' album_name=picture.album.name pk=picture.pk %}" data-toggle="tooltip" title="Update picture"><i class="fa fa-edit"></i></a>
+                <a href="{% url 'gallery:delete_picture' album_name=picture.album.name pk=picture.pk %}" data-toggle="tooltip" title="Delete picture"><i class="fa fa-trash"></i></a>
+            </div>
+            {% endif %}
+          </div>
+    	</div>	
+		{% endfor %}
+        {% else %}
+            <p class="lead text-muted">There are no Pictures for this Tag....<span><a href="{% url 'gallery:upload_pictures' album_name=album_name %}" class="pl-3"><b>Upload Pictures &nbsp;</b><i class="fa fa-file-upload"></i></a></span></p>
+        {% endif %}
+	</div>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% endblock %}

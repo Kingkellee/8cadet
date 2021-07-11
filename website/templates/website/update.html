@@ -1,0 +1,97 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} 
+	{% with request.resolver_match.url_name as view_url %} 
+		{% if view_url == 'leader_update_by_admin'  %}
+			Update Leader 
+		{% else %} 
+			Update Patron 
+		{% endif %} 
+	{% endwith %}
+{% endblock title %}
+
+{% block content %}
+
+{% with request.resolver_match.url_name as view_url %}
+	<div class="">
+		<form enctype="multipart/form-data" method="post">
+			{% csrf_token %}
+			<div class="row">
+				<div class="col-lg-1 pt-lg-5 ml-lg-5 pt-sm-3"></div>   
+				<div class="col-md-7 pl-lg-4 pt-lg-5 ml-0 p-sm-3">
+					<div class="card">
+						{% if form.errors %}
+							{% for field in form %}
+				        		{% for error in field.errors %}
+		            				<small class="p-1 mb-3 text-center text-white bg-danger">{{ error }}</small>
+		        				{% endfor %}
+		        			{% endfor %}
+		        			{% for error in form.non_field_errors %}
+		            			<small class="p-1 mb-3 text-center text-white bg-danger">{{ error }}</small>
+		        			{% endfor %}
+		    			{% endif %}
+						<div class="card-body">
+							<h4 class="text-info">{% if view_url == 'leader_update_by_admin'  %} Update Leader {% else %} Update Patron {% endif %}</h4>
+							<hr>
+							<div class="form-group row">
+								<div class="col-4">
+									<label for="text" class="ccol-form-label">First Name</label>
+										{{form.first_name|as_crispy_field}}
+								</div>
+								<div class="col-4">
+									<label for="text" class="col-form-label">Last Name</label>
+										{{form.last_name|as_crispy_field}}
+								</div>
+								<div class="col-4">
+									<label for="text" class="col-form-label">Other Name</label>
+										{{form.other_name|as_crispy_field}}
+								</div>
+							</div>
+							<div class="form-group row">
+									<label for="textarea" class="col-12 col-form-label">Achievements</label>
+									<hr class="mb-2">
+								<div class="col-12">
+									{% if view_url == 'leader_update_by_admin'  %}
+										{{ form.achievement }}
+									{% else %}
+										{{ form.contribution }}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card mt-3">
+						<div class="card-header bg-light ">
+							<button type="submit" class="btn btn-info btn-block">{% if view_url == 'leader_update_by_admin'  %} Update Leader {% else %} Update Patron {% endif %} </button>
+						</div>
+					</div> 
+				</div>
+
+				<div class="col-lg-3 d-block mx-auto pt-lg-5 p-sm-3">
+					<div class="card mb-3">
+						<div class="card-header bg-light ">Avatar</div>
+							<div class="card-body">
+								<div class="picture-container">
+									<div class="picture">
+										<img src="{{ object.avatar.url }}" class="picture-src" id="wizardPicturePreview" title="">
+										{{ form.avatar }}
+									</div>
+									<div class="card-footer bg-light">
+										<span>Set Avatar</span>
+									</div>
+									<label for="id_avatar" class=" requiredField"></label>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+{% endwith %}
+                                                                      
+{% endblock content %}
+
+
+   

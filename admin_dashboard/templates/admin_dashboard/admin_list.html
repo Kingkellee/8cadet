@@ -1,0 +1,345 @@
+
+{% extends 'website/base.html' %}
+
+{% block title %} Admin Dashboard All Post{% endblock title %}
+
+{% block content %}
+  <body class="bg-light">
+  <div class="container-fluid">
+    <div class="row">
+      {% include 'admin_dashboard/admin_sidebar.html' %}
+
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-5 pr-5">
+              <input id='myInput' class="form-control form-control w-100" type="text" placeholder="Search"
+                aria-label="Search">
+            </div>
+          </div>
+        </div>
+        <main role="main" class="container">
+          <div class="row" id='main-area'>
+
+            {% if request.resolver_match.url_name == 'dashboard_posts' %}
+            <div class="col-lg-11 p-0 ml-3">
+              <div class="my-3 p-3 bg-white rounded box-shadow">
+                <div class="d-flex justify-content-between align-items-center w-100 border-bottom border-gray">
+                    <h6 class="pb-2 mb-0">Blog Posts</h6>
+                    <a href="{% url 'add_post' %}" class= 'badge badge-dark mb-1' style = 'padding:7px;'>
+                    <span data-feather="plus-circle" style = 'color:#60e22c;height: 12px;width: 15px;'></span>
+                    Add Post
+                    </a>
+                  
+                </div>
+                {% for post in posts %}
+                {% if post == featured_post %}
+                  <div class="media text-muted pt-3">
+                      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray mr-2 query-class">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                        <a href={{post.get_absolute_url}} style="list-style:none;text-decoration:none;color:#6c757c;">
+                        <strong class="d-block text-gray-dark">{{ post.title|truncatechars:90 }}</strong></a>
+                       <div class='btn-group'>
+                        <a href="{% url 'make_feature' post.slug %}"  style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="feature the post">
+                          <span data-feather="award" style = 'color:#30e225;list-style:none;text-decoration:none;width: 20px;height: 20px;'></span>
+                        </a>
+                        <a href="{% url 'update_post' post.slug %}" class='px-2' type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
+                          <span data-feather="edit" style = 'color:purple;'></span>
+                        </a>
+                        <a href='{% url "delete_by_admin" pk=post.pk %}' style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                          <span data-feather="trash-2" style = 'color:red;'></span>
+                        </a>
+                      </div>
+                     </div>
+                     {{ post.content|truncatechars:120|striptags }}
+                    </div>
+                  </div> 
+                  {% else %}
+                    <div class="media text-muted pt-3">
+                      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray mr-2 query-class">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                        <a href={{post.get_absolute_url}} style="list-style:none;text-decoration:none;color:#6c757c;"><strong class="d-block text-gray-dark">{{ post.title|truncatechars:90 }}</strong></a>
+                      
+                        <div class='btn-group'>
+                          <a href="{% url 'make_feature' post.slug %}"  style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="feature the post">
+                            <span data-feather="award" style = 'color:#05b1cc;list-style:none;text-decoration:none;'></span>
+                          </a>
+                          <a href="{% url 'update_post' post.slug %}" class='px-2' type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
+                            <span data-feather="edit" style = 'color:purple;'></span>
+                          </a>
+                          <a href='{% url "delete_by_admin" pk=post.pk %}' style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                            <span data-feather="trash-2" style = 'color:red;'></span>
+                          </a>
+                        </div>
+
+                      </div>
+                        {{ post.content|truncatechars:120|striptags }}
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+                  {% if is_paginated %}
+                    {% include 'admin_dashboard/paginate.html' with posts=page_obj %}
+                  {% endif %}
+            </div>
+            <div class="col-lg-1 p-0"></div>
+            <!--users list dashboard-->
+            {% elif request.resolver_match.url_name == 'dashboard_users' %}
+              <div class="col-lg-8 p-0 ml-3">  
+                <!--users section-->
+                  <div class="my-3 p-3 bg-white rounded box-shadow ml-lg-3 p-4">
+                    <h6 class="border-bottom border-gray pb-2 mb-0">
+                    <p>
+                      <span data-feather="users" style='color:#0be2da;height: 20px;width: 18px;'></span> All Users
+                    </p>
+                    </h6>
+                    {% for user in users %}
+                    <div class="media text-muted pt-3">
+                      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                          <a href='{% url 'dashboard_user_posts' username=user.username %}' style="list-style:none;text-decoration:none;color:#6c757c;!important">
+                            <strong class="text-gray-dark query-class">{{ user.first_name }} {{ user.last_name }}</strong>
+                          </a>
+                          <div>
+                            {% if user.is_superuser %}
+                                {% ifequal  user lead_admin%}
+                                  <i style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="make user as admin">
+                                  <span data-feather="key" style = 'color:green;width:20px;height:18px;'></span>
+                                  </i>
+                                {% else %}
+                                  {% ifequal  user request.user %}
+                                      <i style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="make user as admin">
+                                        <span data-feather="user-check" style = 'color:lightgreen;width:20px;height:18px;'></span>
+                                      </i>
+                                    {% else %}
+                                    <i style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="make user as admin">
+                                      <span data-feather="user-check" style = 'color:green;width:20px;height:18px;'></span>
+                                    </i>
+                                    <a href="{% url 'remove_user_asadmin' username=user.username %}" type="button" class = 'p-1' style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="remove user as admin">
+                                      <span data-feather="user-minus" style = 'color:red;'></span>
+                                    </a>
+                                    <a href="{% url 'remove_user' pk=user.pk %}" style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                                        <span data-feather="trash-2" style = 'color:red;'></span>
+                                    </a>
+                                    {% endifequal %}
+                                {% endifequal %}
+                            {% else %}
+                              <a href="{% url 'make_user_asadmin' username=user.username %}" type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="make user as admin">
+                                <span data-feather="user-check" style = 'color:#323232;'></span>
+                              </a>
+                              <i class = 'p-1' style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="remove user as admin">
+                                <span data-feather="user-minus" style = 'color:purple;'></span>
+                              </i>
+                              <a href="{% url 'remove_user' pk=user.pk %}" style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                                  <span data-feather="trash-2" style = 'color:red;'></span>
+                              </a>
+                            {% endif %}
+                            
+                          </div>
+                        </div>
+                        <span class="d-block query-class">@ {{ user.username }}</span>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                   {% if is_paginated %}
+                    {% include 'admin_dashboard/paginate.html' with users=page_obj %}
+                  {% endif %}
+              </div>
+              <div class="col-lg-4 p-0"></div>
+
+            {% elif request.resolver_match.url_name == 'dashboard_albums' %}
+
+            <div class="col-lg-11 p-0 ml-3">
+              <div class="my-3 p-3 bg-white rounded box-shadow">
+                <div class="d-flex justify-content-between align-items-center w-100 border-bottom border-gray">
+                    <h6 class="pb-2 mb-0">Albums</h6>
+                    <a href="{% url 'add_post' %}" class= 'badge badge-dark mb-1' style = 'padding:7px;'>
+                    <span data-feather="plus-circle" style = 'color:#60e22c;height: 12px;width: 15px;'></span>
+                    New Album
+                    </a>
+                </div>
+          
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-3 w-100 justify-content-md-center">
+                {% if albums %}
+                {% for album in albums %}
+                  <div class="media text-muted pt-3">
+                    <div class="media-body pb-3 mb-0 small lh-125 mr-2">
+                      <div class="col mb-3">
+                          <div class="card shadow-sm h-100">
+                            <div>
+                              <strong class="text-gray-dark query-class">{{ album.name|capfirst }}
+                          </strong> - <span class="badge badge-pill badge-info"> 📖 {{ album.item_count }}</span>
+                            </div>
+                          <a href="{% url 'gallery:single_album' album_name=album %}" data-caption="{{ album.description }}" class="text-dark">
+                          <img class="card-img-top rounded-0" 
+                           img class="bd-placeholder-img card-img-top" width="100%" height="100" width="100" preserveAspectRatio="xMidYMid slice" focusable="false" fill="#55595c" src="{% if album.random_image.url %}{{ album.random_image.url }}{% else %}{{ MEDIA_PREFIX }}/media/placeholder.png{% endif %}">
+                          </a>
+                          <div class='btn-group'>
+                            <a href="{% url 'album_update_by_admin' album_name=album.name %}" class='px-2' type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
+                              <span data-feather="edit" style = 'color:purple;'></span>
+                            </a>                            
+                            <a href='{% url "album_delete_by_admin" pk=album.pk %}' style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                              <span data-feather="trash-2" style = 'color:red;'></span>
+                            </a>
+                          </div>
+                          <div class="lead text-muted" style="font-size: 15px;">
+                          {{ album.description|truncatechars:120|striptags }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                {% else %}
+                  <p class="lead text-muted">No items to display. 😥</p>
+                {% endif %}
+              </div>                  
+                  {% if is_paginated %}
+                    {% include 'admin_dashboard/paginate.html' with albums=page_obj %}
+                  {% endif %}
+            </div>
+
+            <div class="col-lg-1 p-0"></div>
+
+            {% elif request.resolver_match.url_name == 'dashboard_pictures' %}
+            <div class="col-lg-11 p-0 ml-3">
+              <div class="my-3 p-3 bg-white rounded box-shadow">
+                <div class="d-flex justify-content-between align-items-center w-100 border-bottom border-gray">
+                    <h6 class="pb-2 mb-0">Pictures</h6>
+                    <a href="" class= 'badge badge-dark mb-1' style = 'padding:7px;'>
+                    <span data-feather="plus-circle" style = 'color:#60e22c;height: 12px;width: 15px;'></span>
+                    Add Picture
+                    </a>
+                </div>
+
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 g-3 w-100 justify-content-md-center">
+                {% if pictures %}
+                {% for pic in pictures %}
+                  <div class="media text-muted pt-3">
+                    <div class="media-body pb-3 mb-0 mr-2">
+                      <div class="col mb-3">
+                          <div class="card shadow-sm h-100">
+                          <a href="{% url 'gallery:single_picture' album_name=pic.album.name pk=pic.pk %}" data-caption="{{ pic.description }}" class="text-dark">
+                          <img class="card-img-top rounded-0" 
+                           img class="bd-placeholder-img card-img-top" width="100%" height="100" width="100" preserveAspectRatio="xMidYMid slice" focusable="false" fill="#55595c" src="{{ pic.picture.url }}">
+                          </a>
+                          <div class='btn-group'>
+                            <a href="{% url 'pic_update_by_admin' pk=pic.pk %}" class='px-2' type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
+                              <span data-feather="edit" style = 'color:purple;'></span>
+                            </a>
+                            <a href='{% url "pic_delete_by_admin" pk=pic.pk %}' style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                              <span data-feather="trash-2" style = 'color:red;'></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                {% else %}
+                  <p class='lead text-muted'>No saved pictures 😥</p>
+                {% endif %}
+                </div>                
+                <br>
+                <nav aria-label="Page navigation example">
+                  {% if is_paginated %}
+                    {% include 'admin_dashboard/paginate.html' with pictures=page_obj %}
+                  {% endif %}
+                </nav>
+              </div>
+
+            </div>
+            <div class="col-lg-1 p-0"></div>
+            
+            <!-- All tags dashboard-->
+            {% elif request.resolver_match.url_name == 'dashboard_categories' %}
+              <div class="col-lg-8 p-0 ml-3">
+              <!--categories section-->
+                <div class="my-3 p-3 bg-white rounded box-shadow ml-lg-3 p-4">
+                  <div class="d-flex justify-content-between align-items-center w-100 border-bottom border-gray pb-3 mb-2">
+                    <h6 class="pb-2 mb-0">Categories</h6>
+                    <button type='button' class= 'badge badge-dark mb-1' style = 'padding:7px;' data-toggle="modal" data-target="#AddCategoryModal">
+                    <span data-feather="plus-circle" style = 'color:#60e22c;height: 12px;width: 15px;'></span>
+                    Add Category
+                    </button>      
+                  </div>
+                  {% for cat in categories %}
+                  <div class="media text-muted pt-3">
+                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                      <div class="d-flex justify-content-between align-items-center w-100">
+                        <a href='{% url 'dashboard_category_posts' pk=cat.pk %}' style="list-style:none;text-decoration:none;color:#6c757c;!important">
+                          <strong class="text-gray-dark query-class">{{ cat|capfirst }}
+                          </strong>
+                        </a>
+                        <div>
+                        <a href="{% url "cat_update_by_admin" pk=cat.pk %}" type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
+                          <span data-feather="edit" style = 'color:purple;'></span>
+                        </a>
+                        <a href='{% url "cat_delete_by_admin" pk=cat.pk %}' style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">
+                          <span data-feather="trash-2" style = 'color:red;'></span>
+                        </a>
+                        </div>
+                      </div>
+                      <span class="badge badge-pill badge-info"> 📖 {{ cat.post_set.count }}</span>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>             
+              </div>
+              <div class="col-lg-4 p-0"></div>
+            {% elif request.resolver_match.url_name == 'dashboard_tags' %}
+            <div class="col-lg-8 p-0 ml-3">
+              <!--tags section-->
+                <div class="my-3 p-3 bg-white rounded box-shadow ml-lg-3 p-4">
+                  <h6 class="border-bottom border-gray pb-2 mb-0">Tags</h6>
+                  {% for tag, tag_postscount in tag_tup_list %}
+                  <div class="media text-muted pt-3">
+                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                      <div class="d-flex justify-content-between align-items-center w-100">
+                        <a href='{% url 'dashboard_tag_posts' tag=tag %}' style="list-style:none;text-decoration:none;color:#6c757c;!important">
+                        <strong class="text-gray-dark query-class">{{ tag|lower|capfirst }}</strong>
+                        </a>
+                        <a href="{% url 'dashboard_tag_posts' tag=tag %}" style='list-style:none;text-decoration:none;color:#6cf27c;!important'>View Posts</a>
+                      </div>
+                      <span class="badge badge-pill badge-info"> {{tag_postscount}} 📖 </span>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+             </div>
+              <div class="col-lg-4 p-0"></div>
+
+            {% endif %}
+          </div>
+            <!-- Add Category Modal -->
+            <div class="modal fade" id="AddCategoryModal" tabindex="-1" role="dialog" aria-labelledby="AddCategoryModalTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="AddCategoryModalTitle">Add Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form action="{% url 'add_category' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="text" name="category" class="form-control" id="category">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>     
+        </main>
+      </main>
+    </div>
+  </div>
+  </body>
+{% endblock content %}
+

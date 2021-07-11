@@ -1,0 +1,90 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}Update Picture{% endblock title %}
+
+{% block subpage %}
+    <a href="{% url 'gallery:update_picture' album_name=album_name pk=picture.pk %}" class="nav-link">
+    Update Picture <span class="sr-only">(current)</span> 
+    </a> 
+{% endblock %}
+
+{% block content %}
+    <div class="">
+    <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-1 pt-lg-5 ml-lg-5 pt-sm-3">
+        </div>
+        <div class="col-md-7 pl-lg-4 pt-lg-5 ml-0 p-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-info">Update Picture</h4>
+                    <hr>
+                        <div class="form-group row">
+                            <label for="select" class="col-12 col-form-label">Album</label>
+                            <div class="col-12">
+                                {{ form.album|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="textarea" class="col-12 col-form-label">Description</label>
+                            <hr class="mb-2">
+                            <div class="col-12">
+                                {{ form.description|as_crispy_field }}                         
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-header bg-light ">
+                    <button type="submit" class="btn btn-info btn-block">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 d-block mx-auto pt-lg-5 p-sm-3">
+            <div class="card mb-3">
+                <div class="card-header bg-light ">Tags</div>
+                <div class="card-body">
+                  
+                        <div class="form-group row">
+                            <div class="col-12">
+                                {{form.tags|as_crispy_field}}
+                            </div>
+                            <div class="col-12">
+                                <small>Seperate Tags with commas ( , )</small>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+            <div class="card mb-3">
+                <div class="card-header bg-light ">Featured Image</div>
+                <div class="card-body">
+                    <div class="picture-container">
+                        <div class="picture">
+                            <img src="{{ picture.picture.url }}" class="picture-src" id="wizardPicturePreview" title="" style="width: 300px; height: 300px">
+                            <i style='font-size:40px;bottom:10px' class="fas fa-camera"></i>
+                            {{ form.picture }}
+                        </div>
+                        <div class="card-footer bg-light">
+                            <span>You are Updating This Picture</span>
+                        </div>
+                        <label for="id_image" class=" requiredField">
+                    </div>
+
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    </form>
+</div>                                                              
+{% endblock content %}
+
+
+

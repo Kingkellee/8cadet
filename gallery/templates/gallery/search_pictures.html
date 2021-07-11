@@ -1,0 +1,61 @@
+{% extends 'website/base.html' %}
+
+{% block title %} Search results for '{{ request.GET.q }}' {% endblock %}
+{% block subpage %} 
+	{% if request.GET.q %}
+		Search results for "{{ request.GET.q }}"
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+  <!-- search -->
+  <div class="container pt-4 mb-0 pb-0">
+    <div class="row">
+      <div class="col-lg-3"></div>
+      <div class="col-lg-5">
+        <!-- search Section-->
+        <section class='pb-2'>
+          <div class="container pt-4 mb-0 pb-0 pt-0">
+            <div class="bg-light" style = 'box-shadow: 0px 1px 7px 0px #9cf9f073;border-radius: 5px;'>
+                  <form method="GET" action="{% url 'gallery:search' %}">
+                    <div class="input-group">
+                      <input style = 'border-radius:6px; font-family:roboto;' class="form-control" name ='q' type="search" placeholder="Type your query here..."
+                        aria-label="Search" aria-describedby="button-addon2">
+                    </div>
+                  </form>
+              </div>
+            </div>
+        </section>
+      </div>
+      <div class="col-lg-3"></div>
+    </div>
+  </div>
+  
+<section class="py-3">
+    <div class="container py-4">
+       	<div class="row">
+         	<div class="col-lg-2"> </div>
+         		<div class="col-lg-8 mb-5 mb-lg-0">
+          			<h4>  Search results for '{{ request.GET.q }}' </h4>
+					<div class="submission-form">
+					    {% if request.GET.q %}
+							{% for picture in pictures %}
+							<div class="card picture-container ml-2">
+								<img class="card-img" src="{{ picture.picture.url }}">
+								<div class="card-img-overlay">
+									<a href="{% url 'gallery:single_picture' album_name=picture.album.name pk=picture.pk %}">
+								</div>
+							</div>
+							{% empty %}
+							<p class="my-4">No pictures matching search query.</p>
+							{% endfor %}
+						{% endif %}
+					</div>	
+				</div>            
+        	</div>
+      	<div class="col-lg-2"> </div>
+    	</div>
+  	</div>
+</section>
+
+{% endblock content %}

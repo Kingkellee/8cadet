@@ -1,0 +1,228 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load hitcount_tags %}
+
+{% block content %}
+    <section class="py-5">
+      <div class="container py-4">
+        <div class="row text-center">
+          <div class="col-lg-10 mx-auto">
+            {% for cat in post.category.all %}
+              <a class="category-link mb-3 d-inline-block" href={{cat.get_absolute_url}}>{{cat}}</a>
+            {% endfor %}
+            <h1>{% block title %} {{ post.title }}  {% endblock title %}</h1>
+            <ul class="list-inline mb-5">
+              <li class="list-inline-item mx-2">
+                  <a class="text-uppercase text-muted reset-anchor" href="{% url 'user-posts' username=post.author.username %}">
+                    <i class="fas fa-user-tie"></i> {{post.author.first_name}}
+                  </a>
+              </li>
+              <li class="list-inline-item mx-2">
+                  <a class="text-uppercase text-muted reset-anchor" href="#">
+                    <i class="fas fa-calendar-alt"></i> {{post.created_on|date:"F d, Y"}}
+                  </a>
+              </li>
+              <li class="list-inline-item mx-2">
+                <p class="text-uppercase meta-link font-weight-normal">
+                    <i class="far fa-eye"></i></i> {% get_hit_count for post %}
+                </p>
+            </li>
+              {% if post.author == user or user.is_superuser %}
+                <li class="list-inline-item ml-3 mr-0">
+                    <a class="text-uppercase text-primary m-0 reset-anchor" href="{% url 'update_post' post.slug %}">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item mx-1">
+                    <a class="text-uppercase text-danger reset-anchor" data-toggle="modal" data-target="#exampleModal" href="{% url 'delete_post' post.slug %}"> 
+                      <i class="fas fa-trash"></i>
+                     </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        
+        <img class="w-100 mb-5" src="{% thumbnail post.header_image 900x450 crop="-10,4" %}" alt="...">
+        <div class="row">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-9">
+            <p class="mb-5 drop-caps">{{post.content|safe}}</p>
+
+            <!-- Post tags-->
+            <div class="d-flex align-items-center flex-column flex-sm-row mb-4 p-4 bg-light">
+              <h3 class="h4 mb-3 mb-sm-0">Tags</h3>
+              <ul class="list-inline mb-0 ml-0 ml-sm-3">
+                {% for tag in  post.tags.all %}
+                    <li class="list-inline-item my-1 mr-2"><a class="sidebar-tag-link" href={% url 'tagged' tag.slug %}>{{ tag }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div class="mb-3 mb-sm-0 detail__pagenav">
+                <div class="detail__nav">
+                    {% with prev=get_previous %}
+                    <div class="detail__prev">
+                      {% if prev %}     
+                        <a href="{% url 'post-detail' prev.slug  %}" rel="prev">
+                            <span>Previous Post</span>
+                            {{ prev.title }}
+                        </a>
+                      {% else %}
+                        <a href="/" rel="prev">
+                            <span>Go Back</span>
+                            Nothing to see Here
+                        </a>
+                      {% endif %}
+                    </div>
+                    {% endwith %} 
+                    
+                    {% with next=get_next %}
+                    <div class="detail__next">
+                      {% if next %}
+                        <a href="{% url 'post-detail' next.slug  %}" rel="next">
+                            <span>Next Post</span>
+                            {{ next.title }}
+                        </a>
+                      {% else %}
+                        <a href="/" rel="next">
+                            <span>Go Back</span>
+                            Nothing to see Here
+                        </a>                      
+                      {% endif %} 
+                    </div>
+                    {% endwith %}
+                </div>
+            </div> <!-- end detail__pagenav -->
+
+              <div class="my-2">&nbsp;</div>
+              <hr>
+            <!-- Post comments -->
+              <div class="mb-3 mb-sm-0">
+                <h3 class="h4">Comments {{post.get_comments_count}} </h3>
+
+                <form action="{% url 'like_post' post.slug %}" method="post">
+                    {% csrf_token %}
+                {% if user.is_authenticated %}
+                    {% if is_liked %}
+                        <button type="submit" name = "post_id" id="likeBtn" data-url="{% url 'like_post' post.slug %}" data-token="{{ csrf_token }}" value = "{{ post.id }}" class="btn btn-lg" disabled="true">
+                          <span class="text-primary">
+                            <i class="fa fa-thumbs-up fa-fw" aria-hidden="true"></i>&nbsp; {{ post.likes.count }}
+                          </span>
+                        </button>
+
+                        <button type="submit" name = "post_id" id="likeBtn" data-url="{% url 'like_post' post.slug %}" data-token="{{ csrf_token }}" value = "{{ post.id }}" class="btn btn-lg">
+                          <span class="text-danger">
+                            <i class="fa fa-thumbs-down fa-fw" aria-hidden="true"></i>&nbsp;
+                          </span>
+                        </button>
+                    {% else %}
+                        <button type="submit" name = "post_id" id="likeBtn" data-url="{% url 'like_post' post.slug %}" data-token="{{ csrf_token }}" value = "{{ post.id }}" class="btn btn-lg">
+                          <span class="text-primary">
+                            <i class="fa fa-thumbs-up fa-fw" aria-hidden="true"></i>&nbsp; {{ post.likes.count }}
+                          </span>
+                        </button>
+                    {% endif %}
+                {% else %}
+                <button type="submit" name = "post_id" id="likeBtn" data-url="{% url 'like_post' post.slug %}" data-token="{{ csrf_token }}" value = "{{ post.id }}" class="btn btn-lg" disabled="true">
+                  <span class="text-primary">
+                    <i class="fa fa-thumbs-up fa-fw" aria-hidden="true"></i>&nbsp; {{ post.likes.count }} Liked this Post
+                  </span>
+                </button>
+                <small>You Must Be Logged in To Like<a class="nav-link" href="{% url 'users:login' %}">Login Here</a></small>
+                {% endif %}
+                </form>
+            </div>
+            <form action="{% url 'add_comment' pk=post.pk%}" method="post" class = 'mx-4  pr-5'>
+                {% csrf_token %}
+                <b>Add comment: </b><textarea type="textarea" name='post-comment' placeholder='Comment to the post' class= 'mr-5 my-2 form-control'></textarea>
+                <button type='submit' style='float:right'>comment</button>
+            </form>
+            <ul class="list-unstyled comments mt-4">
+              {% for comment  in post.get_all_comments %}
+              <li>
+                <div class="media mb-4"><img class="rounded-circle shadow-sm img-fluid" {% if post.author.profile.avatar %} src="{{comment.author.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} alt="" width="60">
+                  <div class="media-body ml-3">
+                    <p class="small mb-0 text-primary">{{comment.created_on}}
+                      {% if request.user == comment.author or request.user.is_superuser or request.user == post.author %}
+                      <form action="{% url 'delete_comment' ppk=post.pk cpk=comment.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">🗑</button>
+                      </form>
+                      {% endif %}
+                    </p>
+                    <h5>{{ comment.author.first_name }} {{ comment.author.last_name }} </h5>
+                    <p class="text-muted text-small mb-2">{{ comment.content }}</p>
+                    <a class="reset-anchor text-small" data-toggle="collapse" href="#collapseComment-{{comment.pk}}" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-share mr-2 text-primary"></i><strong>Reply</strong></a>
+                    <div class="collapse" id="collapseComment-{{comment.pk}}">
+                      <form action="{% url 'reply_comment' ppk=post.pk cpk=comment.pk %}" method="post" class='mr-5 pr-5'>
+                            {% csrf_token %}
+                            <input class = 'form-control mr-5' name='reply_content' type="text" placeholder='Reply to the comment'>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <ul class="list-unstyled ml-5">
+                  {% for reply in comment.get_all_reply %}
+                  <li> 
+                    <div class="media mb-4"><img class="rounded-circle shadow-sm img-fluid" {% if post.author.profile.avatar %} src="{{reply.author.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} alt="" width="60">
+                      <div class="media-body ml-3">
+                        <p class="small mb-0 text-primary">{{reply.reply_time}}
+                          {% if request.user == reply.author or request.user.is_superuser or request.user == post.author %}
+                          <form action="{% url 'delete_reply' ppk=post.pk cpk=comment.pk rpk=reply.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">🗑</button>
+                          </form>
+                          {% endif %}  
+                        </p>
+                        <h5>{{ reply.author.first_name }} {{ reply.author.last_name }}</h5>
+                        <p class="text-muted text-small mb-2">{{reply.reply_content}}</p>
+                        <a class="reset-anchor text-small" data-toggle="collapse" href="#collapseReply-{{reply.pk}}" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-share mr-2 text-primary"></i><strong>Reply</strong></a>
+                        <div class="collapse" id="collapseReply-{{reply.pk}}">
+                          <form action="{% url 'reply_comment' ppk=post.pk cpk=comment.pk %}" method="post" class='mr-5 pr-5'>
+                                {% csrf_token %}
+                                <input class = 'form-control mr-5' name='reply_content' type="text" placeholder='Reply to the comment'>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </li>
+              {% endfor %}
+            </ul>
+
+          </div>
+          <div class="col-lg-1"></div>
+            <div class="my-3">&nbsp;</div>
+        </div>
+      </div>
+    </section>
+  <!-- Post Delete Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Hey !</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action={% url 'delete_post' post.slug %} method="post">
+          {% csrf_token %}
+          <div class="modal-body">
+            Are you sure you want to delete ?
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-outline-primary" data-dismiss="modal">Cancel</a>
+            <button type="submit" class="btn btn-danger">confirm</button>
+          </div>
+        </form>
+       </div>
+    </div>
+  </div>
+  <!-- end Modal -->
+  
+{% endblock content %}

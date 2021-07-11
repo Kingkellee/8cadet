@@ -1,0 +1,26 @@
+{% extends 'website/base.html' %}
+
+{% block title %} 
+    {% if update %} Update Picture {% else %} Upload Pictures {% endif %} 
+{% endblock %}
+
+{% block blog_navbar %}  {% endblock blog_navbar %}
+
+{% block subpage %}
+    {% if update %} Update Picture {% else %} Upload Pictures {% endif %} 
+{% endblock %}
+
+{% block user_panel %} {% endblock %}
+
+{% block content %}
+<div class="submission-form">
+    <h3 class="my-4">{% if update %} Update Picture {% else %} Select pictures for album {{ album_name }} {% endif %}</h3>
+    <form method="post" enctype="multipart/form-data" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}
+{% block sidebar %}
+{% endblock %}

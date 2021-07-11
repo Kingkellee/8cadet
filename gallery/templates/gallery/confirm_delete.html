@@ -1,0 +1,39 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+<section class='pb-5 mb-5'>
+<div class="container">
+     <div class="card text-center mt-1" style='top:1rem;'>
+    <div class="card-header">
+        {% block title %} 
+        	{% if request.resolver_match.url_name == 'delete_album' %}
+        		Delete Album "{{ object }}" 
+        	{% elif request.resolver_match.url_name == 'delete_picture' %}
+        		Delete Picture
+        {% endif %}
+        {% endblock %}
+    </div>
+    <form method="post">
+    {% csrf_token %}
+    <div class="card-body">
+        <h5 class="card-title">Do you want to delete</h5>
+        {%if request.resolver_match.url_name == 'delete_album' %}
+            <p class="card-text">Are you sure you want to delete album "{{ object }}" with its content?</p>
+        {% elif request.resolver_match.url_name == 'delete_picture' %}
+		<a href="{% url 'gallery:single_picture' album_name=album_name pk=picture.pk %}">
+			<img src="{{ picture.picture.url }}" style="width: 200px;">
+		</a>
+            <p class="card-text">"{{ picture.description }}"</p>
+        {% endif %}
+        {%if request.resolver_match.url_name == 'delete_album'%}
+            <a href="{% url 'gallery:albums' %}" class="btn btn-outline-info">Cancel</a>
+        {% else %}
+            <a href="{% url 'gallery:single_picture' album_name=album_name pk=picture.pk %}" class="btn btn-outline-info">Cancel</a>
+        {% endif %}
+        <button type='submit' class="btn btn-danger">Confirm</button>
+    </div>
+    </form>
+    </div>
+</div>
+</section>
+{% endblock content %}
