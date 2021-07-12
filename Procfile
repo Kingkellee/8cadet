@@ -1,1 +1,1 @@
-web: guinicorn auchibbg.wsgi
+web: gunicorn auchibbg.wsgi
