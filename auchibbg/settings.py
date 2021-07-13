@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'taggit',
     'hitcount',
     'easy_thumbnails',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -90,7 +91,6 @@ WSGI_APPLICATION = 'auchibbg.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 
 # Postgresss Database
 DATABASES = {
@@ -141,15 +141,37 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+#S3 BUCKETS CONFIG
 
-MEDIA_URL = '/media/'
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_LOCATION = 'static'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+
+DEFAULT_FILE_STORAGE = 'mysite.storage_backends.MediaStorage'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
-STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+
+# MEDIA_URL = '/media/'
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+# STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
@@ -157,9 +179,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Deployment
 
-SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
-CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
-SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
+
 
 
 
@@ -169,7 +189,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 
 import urllib.request
-proxy_support = urllib.request.ProxyHandler({"http": "http://smtp.gmail.com:587"})
+proxy_support = urllib.request.ProxyHandler({"http": "http://smtp.mandrillapp.com:587"})
 opener = urllib.request.build_opener(proxy_support)
 urllib.request.install_opener(opener)
 
@@ -180,7 +200,6 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_USE_TLS = True
-
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -199,5 +218,9 @@ MAILCHIMP_DATA_CENTER = config('MAILCHIMP_DATA_CENTER')
 MAILCHIMP_EMAIL_LIST_ID = config('MAILCHIMP_EMAIL_LIST_ID')
 
 DATE_INPUT_FORMATS = ['%Y']
+
+SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
 
 django_heroku.settings(locals())

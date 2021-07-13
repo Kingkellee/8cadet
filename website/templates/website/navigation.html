@@ -49,7 +49,7 @@
             aria-haspopup="true" aria-expanded="false">
             
             {% if user.is_authenticated %}
-              <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} alt="profile" style='border-radius:50%;height:32px;width:30px;'>
+              <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} style='border-radius:50%;height:32px;width:30px;'>
               {% else %}
               <img src="{% static 'images/default.jpg' %}" style='border-radius:50%;height:30px;width:30px;'>
               {% endif %}

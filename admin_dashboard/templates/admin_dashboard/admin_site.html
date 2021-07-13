@@ -532,7 +532,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="" method="post">
+        <form action="{% url 'add_category' %}" method="post">
           {% csrf_token %}
           <div class="modal-body">
               <input type="text" name="category" class="form-control" id="category">
