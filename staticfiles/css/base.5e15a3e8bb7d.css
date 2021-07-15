@@ -1,9 +1,207 @@
-{% extends 'website/base.html' %}
+*
+{
+  margin: 0;
+  padding: 0;
+}
 
-{% block title %} Contact {% endblock title %}
+h1, h2, h4, h5, h6 {
+font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+}
 
-{% block content %}
-<style>
+h3::after {
+  content: '';
+  background: #007bff;
+  display: block;
+  height: 3px;
+  width: 170px;
+  margin: 20px auto 5px;
+}
+
+/* ---------------------navigation---------------------- */
+#nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: yellow;
+}
+
+.navbar-brand img {
+  height: 40px;
+  padding-left: 30px;
+}
+
+.navbar-nav li {
+  padding:  0 10px;
+}
+
+.navbar-nav li a {
+  float: right;
+  text-align: left;
+}
+
+#nav-bar ul li a:hover {
+  color: lightskyblue!important;
+}
+
+.navbar {
+  background: black;
+}
+
+.navbar-toggler {
+  border: none !important;
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* ---------------------slider---------------------- */
+#slider {
+  width: 100%;
+}
+
+.carousel-caption {
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: initial !important;
+}
+
+.carousel-caption h5 {
+  color: white;
+  font-size: 42px;
+}
+
+/* ---------------------Aauthors profile---------------------- */
+
+
+.profile-card {
+  text-align: center;
+  
+}
+
+.profile-card img {
+  height: 150px;
+}
+
+.profile-card hr {
+  border: peachpuff;
+  
+}
+
+.profile-card-body {
+  background: black;
+  height: fit-content;
+
+}
+
+
+/* ---------------------About---------------------- */
+#about {
+  background: white;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  color: #555;
+  font-weight: 600;
+}
+
+#about .btn {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.about-content {
+  padding-top: 30px;
+}
+
+.categories h2 {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+
+/* ---------------------Latest Post---------------------- */
+#latest-post {
+  background: lightcyan;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  color: #555 ;
+}
+
+h1 {
+  text-align: center;
+  color: #555555!important;
+  padding-bottom: 10px;
+}
+
+h1::after {
+  content: '';
+  background: #007bff;
+  display: block;
+  height: 3px;
+  width: 170px;
+  margin: 20px auto 5px;
+}
+
+.latest-post {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.latest-post .row {
+  margin-top: 30px;
+}
+
+.col-md-3 {
+  margin: 40px auto;
+}
+
+.latest-post-card-body {
+  padding: 20px 10px 10px;
+  border-color: #eeffee;
+}
+
+.latest-post-image {
+  height: 250px;
+  margin-top: -10%;
+
+}
+
+.latest-post-card-body img{
+  border: 5px solid #fff;
+}
+
+.latest-post-card-body h3 {
+  font-size: 25px;
+  margin-top: 15px;
+  color: #007bf0;
+}
+
+blockquote {
+  background: #f9f9f9;
+  font-size: 15px;
+  border-left: 10px solid #007bf0;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote:before {
+ color: #007bf0;
+ content: open-quote;
+ font-size: 4em;
+ line-height: 0.1em;
+ margin-right: 0.25em;
+ vertical-align: -0.4em;
+}
+
+.latest-post-card-body:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
 /* ---------------------Get in Touch---------------------- */
 #contact {
   background: whitesmoke;
@@ -11,6 +209,33 @@
   padding-bottom: 40px;
   color: #777777;
 }
+
+/* .form-style {
+  padding: 15px;
+} */
+
+/* .form-control {
+  border-radius: 10px !important;
+  border: 1px solid!important;
+  color
+  padding: 5px 15px;
+}
+
+::placeholder {
+  color: #999999 !important;
+}
+
+.contact-info {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.block:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  cursor: pointer;
+  transition: 0.5s;
+} */
 
 .form-style{
 max-width:450px;
@@ -242,98 +467,80 @@ p {
 }
 
 
+/*---------------------------------- About Page ------------------------*/
 
-</style>
-    <div class="container-fluid contact-form">
-    <div class="contact-image">
-    </div>
-        <div class="row"> <!-- row start -->
-            <div class="col-12">
-              <div class="google-maps mb-100">
-                <iframe style="width: 100%; height: 400px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3191.3880678992728!2d6.272842!3d7.0573991!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10467d7bc1e89a33%3A0x7245688154207b1c!2sAuchi%20Polytechnic%20Hostel!5e1!3m2!1sen!2sng!4v1625840946212!5m2!1sen!2sng"  allowfullscreen="">
-                </iframe>
-              </div>
-            </div>
-        </div> <!-- row close -->
-        <br>
-        <div class="row contact-area"> <!-- row start -->
-            <!-- Contact Information -->
-            <div class="col-md-6"> 
-          <div class="contact-information">
-                    <h2 style="text-align: center;">Address</h2>
-                    <br>
-                    <br>
+.single-skills-area {
+position: relative;
+z-index: 1;
 
-                    <h5><i class="fa fa-map-marker"></i> Back of Hostel L, Auchi Polytechnic Hostel, Benin-Auchi Road, Auchi, Edo State, Nigeria.</h5>
-                    <br>
+h6 {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 12px;
+  @media #{$breakpoint-lg} {
+    font-size: 14px;
+  }
+  @media #{$breakpoint-md} {
+    font-size: 14px;
+  }
+  @media #{$breakpoint-xs} {
+    font-size: 14px;
+  }
+}
+}
 
-                    <h5><i class="fa fa-phone"></i> +2349031139477</h5>
-                    <br>
+.about-border {
+position: relative;
+z-index: 1;
+width: 100%;
+height: 2px;
+background-color: $bg-gray;
+}
 
-                    <!-- <h5><i class="fa fa-envelope"></i> </h5> -->
-                </div>
-            </div>
+.about-cta-area {
+position: relative;
+z-index: 1;
+}
 
-            <!-- Contact Form -->
-            <div class="col-md-6">
-                <h2 style="text-align: center;">Contact Us</h2>
-                <br>
-                <br>
-                <div class="contact-form">
-                    {% include 'website/alert_msg.html' with messages=messages %}
-                    <div class="form-style">
-                        
-                        <form action="" method="post">
-                            {% csrf_token %}
+.single-cta {
+position: relative;
+z-index: 1;
 
-                            <div class="section"><span>1</span>
-                                Contact Info
-                            </div>
-                            <div class="form-group">
-                                <label>Your Full Name {{form.name}}</label>
-                                <label>Email Address {{form.email}}</label>
-                            </div>
-          
-                            <div class="section"><span>2</span>
-                                Send Us a Message
-                            </div>
-                            <div class="form-group">
-                                <label>Subject {{form.subject}}</label>
-                                <label>Message {{form.message}}</label>
-                            </div>
-                            <div class="button-section">
-                                <button type="submit" class="btn btn-primary">Send</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- row end -->
-    <!-- <form method="post" >
-        {% csrf_token %}
-        <h3>Drop Us a Message</h3>
-       <div class="row">
-            <div class="col-md-6">
-                {% include 'website/alert_msg.html' with messages=messages %}
-                <div class="form-group">
-                    <input type="text" name="txtName" class="form-control" placeholder="Your Name *" value="" required/>
-                </div>
-                <div class="form-group">
-                    <input type="email" name="txtEmail" class="form-control" placeholder="Your Email *" value="" required/>
-                </div>
-                <div class="form-group">
-                    <input type="number" name="txtPhone" class="form-control" placeholder="Your Phone Number *" value="" required />
-                </div>
-                <div class="form-group">
-                    <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <textarea name="txtMsg" class="form-control" placeholder="Your Message *" style="width: 100%; height: 150px;" required></textarea>
-                </div>
-            </div>
-        </div>
-    </form> -->
-    </div>
-{% endblock content %}
+i {
+  font-size: 50px;
+  color: $primary;
+  margin-bottom: 15px;
+  display: block;
+  @media #{$breakpoint-md} {
+    font-size: 40px;
+  }
+}
+
+h2 {
+  font-size: 38px;
+  display: block;
+  margin-bottom: 10px;
+  @media #{$breakpoint-md} {
+    font-size: 30px;
+  }
+  @media #{$breakpoint-xs} {
+    font-size: 30px;
+  }
+}
+
+h5 {
+  margin-bottom: 0;
+  font-size: 18px;
+  @media #{$breakpoint-lg} {
+    font-size: 16px;
+  }
+  @media #{$breakpoint-md} {
+    font-size: 16px;
+  }
+  @media #{$breakpoint-xs} {
+    font-size: 16px;
+  }
+}
+}
+
+
