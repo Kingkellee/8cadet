@@ -50,10 +50,11 @@
             
             {% if user.is_authenticated %}
               <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}" {% endif %} style='border-radius:50%;height:32px;width:30px;'>
+              My Account
               {% else %}
               <img src="{% static 'images/default.jpg' %}" style='border-radius:50%;height:30px;width:30px;'>
+              Guest
               {% endif %}
-            Profile
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {% if user.is_authenticated %}
