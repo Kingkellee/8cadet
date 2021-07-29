@@ -19,9 +19,12 @@
   <nav class="navbar navbar-expand-lg navbar-light border-top border-bottom border-light">
     <div class="container">
       <ul class="list-inline small mb-0 text-dark d-block d-lg-none">
-        <li class="list-inline-item"><a class="reset-anchor" href="https://facebook.com/groups/501408263303168/"><i class="fab fa-facebook-f"></i></a></li>
-        <li class="list-inline-item"><a class="reset-anchor" href="https://chat.whatsapp.com/LtU1GUrKpttAVo21YJ8FPt"><i class="fab fa-whatsapp"></i></a></li>
-<!--         <li class="list-inline-item"><a class="reset-anchor" href="#"><i class="fab fa-linkedin"></i></a></li> -->
+        <li class="list-inline-item"><a class="reset-anchor" href="https://facebook.com/groups/501408263303168/">
+          <i class="fab fa-facebook-f"></i></a>
+        </li>
+        <li class="list-inline-item"><a class="reset-anchor" href="https://chat.whatsapp.com/LtU1GUrKpttAVo21YJ8FPt">
+          <i class="fab fa-whatsapp"></i></a>
+        </li>
       </ul>
       <!--toggle buttons-->
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
@@ -123,7 +126,7 @@
               {% if user.is_authenticated %}
               <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} style='border-radius:50%;height:32px;width:30px;'>
               {% else %}
-              <img src="{% static 'images/default.jpg' %}" alt="profile" style='border-radius:50%;height:30px;width:30px;'>
+              <img src="{% static 'images/default.jpg' %}" style='border-radius:50%;height:30px;width:30px;'>
               {% endif %} 
               </a>
             <div class="dropdown-menu mt-2" aria-labelledby="account">
@@ -199,16 +202,18 @@
         <div class="nav-item dropdown">
           <a class=" nav-link dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <span data-feather="smile"></span>
             {% if user.is_authenticated %}
-              <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %}alt="profile" style='border-radius:50%;height:32px;width:30px;'>
+              <img {% if request.user.profile.avatar %} src="{{request.user.profile.avatar.url}}" {% else %} src="{% static 'images/default.jpg' %}"  {% endif %} style='border-radius:50%;height:32px;width:30px;'>
               {% else %}
-              <img src="{% static 'images/default.jpg' %}" alt="profile" style='border-radius:50%;height:30px;width:30px;'>
+              <img src="{% static 'images/default.jpg' %}" style='border-radius:50%;height:30px;width:30px;'>
               {% endif %}
-            Profile
+            Tools
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="{% url 'users:profile_update' %}">Profile</a>
+            <a class="dropdown-item" href="{% url 'blog-home' %}">View Blog</a>
+            <a class="dropdown-item" href="{% url 'gallery:albums' %}">View Gallery</a>
+            <a class="dropdown-item" href="{% url 'authors' %}">View Authors</a>
             <div class="dropdown-divider"></div>
             {% if user.is_authenticated %}
               <form method="post" action="{% url 'accounts:logout' %}">

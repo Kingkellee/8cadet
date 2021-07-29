@@ -4,7 +4,7 @@
 {% block title %} Our History {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+<div class="container-fluid">
   <!-- ****** About Us Area Start ******* -->
   <section class="about-us-area mt-70">
     <div class="container">
@@ -148,14 +148,18 @@
               <div class="blog-slider__content">
                 <span class="blog-slider__code">{{ leader.start_date }} &nbsp;- &nbsp; {{ leader.end_date }}</span>
                 <div class="blog-slider__title">
-                    Captain 
-                  {{ leader.first_name|title }} 
-                  {% if leader.other_name %} 
-                  {{ leader.other_name|title }} 
-                  {% endif %} 
-                  {{ leader.last_name|title }}
+                  <p>
+                      Captain 
+                    {{ leader.first_name|title }} 
+                    {% if leader.other_name %} 
+                    {{ leader.other_name|title }} 
+                    {% endif %} 
+                    {{ leader.last_name|title }}
+                  </p>
                 </div>
-                <div class="blog-slider__text">{{ leader.achievement }}</div>
+                <div class="blog-slider__text resize">
+                  <p>{{ leader.achievement|truncatewords:200 }}</p>
+                </div>
               </div>
             </div>
             {% endfor %}
@@ -198,7 +202,7 @@
                   {% endif %} 
                   {{ patron.last_name|title }}
                 </div>
-              <div class="blog-slider__text">{{ patron.contribution }}</div>
+              <div class="blog-slider__text">{{ patron.contribution|truncatewords:200 }}</div>
             </div>
           </div>
           {% endfor %}    

@@ -1,11 +1,6 @@
 {% extends 'website/base.html' %}
 
 {% block title %} Search results for '{{ request.GET.q }}' {% endblock %}
-{% block subpage %} 
-	{% if request.GET.q %}
-		Search results for "{{ request.GET.q }}"
-	{% endif %}
-{% endblock %}
 
 {% block content %}
   <!-- search -->

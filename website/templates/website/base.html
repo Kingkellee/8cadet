@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="all, follow">
         <title>
             {% block title %} {% endblock title %}
         </title>
@@ -11,34 +15,12 @@
     </head> 
 
     <body>
-        {% with request.resolver_match.url_name as view_url %}         
-          {% if view_url == 'albums' or view_url == 'search' or view_url == 'tag_name' or view_url == 'create_album' or view_url == 'single_album' or view_url == 'upload_pictures' or view_url == 'delete_album' or view_url == 'update_album' or view_url == 'single_picture' or view_url == 'delete_picture' or view_url == 'update_picture' %}
-        <!-- Facebook comments -->
-        <div id="fb-root"></div>
-          <script>(function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.1';
-          fjs.parentNode.insertBefore(js, fjs);
-          }(document, 'script', 'facebook-jssdk'));
-          </script>
-          {% endif %}
-        {% endwith %}
         <!--including header-->
         {% include 'website/header.html' %}
-        
         <!--main part of the page-->
         {% block content %} {% endblock content %}
-
         {% include 'website/alert_msg.html' %}
-
-         <!-- preloader
-  ================================================== -->
-
-
         <!--including footer-->
         {% include 'website/footer.html' %}
     </body>
-
 </html>

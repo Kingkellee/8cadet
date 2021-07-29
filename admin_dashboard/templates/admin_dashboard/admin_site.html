@@ -80,7 +80,7 @@
                           <a href="{% url 'make_feature' post.slug %}"  style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="feature the post">
                             <span data-feather="award" style = 'color:#05b1cc;list-style:none;text-decoration:none;'></span>
                           </a>
-                          <a href="#" class='px-2' type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
+                          <a href="{% url 'update_post' post.slug %" class='px-2' type="button" style ="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="click to edit">
                             <span data-feather="edit" style = 'color:purple;'></span>
                           </a>
                           <a href='{% url "delete_by_admin" pk=post.pk %}' style ="text-decoration:none;" data-toggle="tooltip" data-placement="bottom" title="click to delete">

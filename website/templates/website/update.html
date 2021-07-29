@@ -54,9 +54,11 @@
 									<hr class="mb-2">
 								<div class="col-12">
 									{% if view_url == 'leader_update_by_admin'  %}
-										{{ form.achievement }}
+										{{ form.media }}
+										{{ form.achievement|as_crispy_field}}
 									{% else %}
-										{{ form.contribution }}
+										{{ form.media }}
+										{{ form.contribution|as_crispy_field }}
 									{% endif %}
 								</div>
 							</div>
@@ -68,7 +70,7 @@
 						</div>
 					</div> 
 				</div>
-
+			{% if view_url == 'leader_update_by_admin' or view_url == 'patron_update_by_admin'  %}
 				<div class="col-lg-3 d-block mx-auto pt-lg-5 p-sm-3">
 					<div class="card mb-3">
 						<div class="card-header bg-light ">Avatar</div>
@@ -87,6 +89,7 @@
 					</div>
 				</div>
 			</div>
+		{% endif %}
 		</form>
 	</div>
 {% endwith %}

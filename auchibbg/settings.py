@@ -48,11 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'ckeditor',
-    'crispy_forms',
+    # 'ckeditor',
+    # 'crispy_forms',
     'taggit',
     'hitcount',
     'easy_thumbnails',
+    'countable_field',
     'storages',
 ]
 
@@ -164,14 +165,14 @@ else:
     STATIC_ROOT  = os.path.join(BASE_DIR, 'staticfiles')
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
 
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Deployment
 

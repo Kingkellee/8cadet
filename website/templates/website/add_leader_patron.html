@@ -15,7 +15,7 @@
 {% block content %}
 
 {% with request.resolver_match.url_name as view_url %}
-	<div class="">
+	<div class="container-fluid">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
 			<div class="row">
@@ -64,9 +64,12 @@
 									<hr class="mb-2">
 								<div class="col-12">
 									{% if view_url == 'add_leaders'  %}
-										{{ form.achievement }}
+										{{ form.media }}
+										{{ form.achievement|as_crispy_field }}
+									
 									{% else %}
-										{{ form.contribution }}
+										{{ form.media }}
+										{{ form.contribution|as_crispy_field }}
 									{% endif %}
 								</div>
 							</div>

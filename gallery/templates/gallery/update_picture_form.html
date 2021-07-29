@@ -5,14 +5,8 @@
 
 {% block title %}Update Picture{% endblock title %}
 
-{% block subpage %}
-    <a href="{% url 'gallery:update_picture' album_name=album_name pk=picture.pk %}" class="nav-link">
-    Update Picture <span class="sr-only">(current)</span> 
-    </a> 
-{% endblock %}
-
 {% block content %}
-    <div class="">
+    <div class="container-fluid">
     <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
     <div class="row">

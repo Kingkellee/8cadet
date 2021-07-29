@@ -2,37 +2,6 @@
 
 {% block title %} Album: {{ album_name }} {% endblock %}
 
-{% block blog_navbar %}  {% endblock blog_navbar %}
-
-{% block subpage %} 
-<a href="{% url 'gallery:single_album' album_name=album_name %}" class="nav-link">
-    Album: {{ album_name }} <span class="sr-only">(current)</span> 
-</a> 
-{% endblock %}
-
- 
-{% block user_panel %}
-    {% if user.is_authenticated %}
-        <div class="my-3">
-            <ul class="list-unstyled text-center">
-                <li class="d-inline-block">
-                    <a href="{% url 'gallery:albulms' %}"><b>View Album &nbsp;</b> <i class="fa fa-list "></i></a>
-                </li>
-                <li class="d-inline-block">
-                    <a href="{% url 'gallery:update_album' album_name=album_name %}" class="pl-3"><b>Update Album &nbsp;</b><i class="fa fa-edit"></i></a></li>
-                <li class="d-inline-block">
-                    <a href="{% url 'gallery:delete_album' album_name=album_name %}" class="pl-3"><b>Delete Album &nbsp;</b><i class="fa fa-trash"></i></a></li>
-                <li class="d-inline-block">
-                    <a href="{% url 'gallery:upload_pictures' album_name=album_name %}" class="pl-3"><b>Upload Pictures &nbsp;</b><i class="fa fa-upload"></i></a>
-                </li>
-            </ul>
-        </div>
-    {% else %}
-        <!-- add some space -->
-        <div class="my-3">&nbsp;</div>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 
 <!-- Photo Grid -->
@@ -63,6 +32,4 @@
       </div>
   </div>
 
-{% endblock %}
-{% block sidebar %}
 {% endblock %}

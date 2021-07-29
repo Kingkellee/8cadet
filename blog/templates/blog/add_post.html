@@ -5,7 +5,7 @@
 {% block title %}Add Post{% endblock title %}
 
 {% block content %}
-    <div class="">
+    <div class="container-fluid">
     <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
     <div class="row">
@@ -95,6 +95,8 @@
 
             </div>
 
+        </div>
+        <div class="col-lg-1 pt-lg-5 ml-lg-5 pt-sm-3">
         </div>
     </div>
     </form>

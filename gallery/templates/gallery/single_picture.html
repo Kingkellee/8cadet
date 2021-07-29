@@ -2,62 +2,6 @@
 
 {% block title %} {{ album_name }} {% endblock %}
 
-{% block subpage %} 
-<a href="{% url 'gallery:single_album' album_name=album_name %}" class="nav-link">
-    Album: {{ album_name }} <span class="sr-only">(current)</span> 
-</a> 
-{% endblock %}
-
-
-{% block user_panel %}
-    {% if user.is_authenticated %}
-        <div class="my-3">
-            <ul class="list-unstyled text-center">
-                <li class="d-inline-block"><a href="{% url 'gallery:update_album' album_name=album_name %}" class="pl-3"><b>Update Album &nbsp;</b><i class="fa fa-edit"></i></a></li>
-                <li class="d-inline-block"><a href="{% url 'gallery:delete_picture' album_name=album_name pk=picture.pk %}" class="pl-3"><b>Delete Picture &nbsp;</b><i class="fa fa-trash"></i></a></li>
-                <li class="d-inline-block"><a href="{% url 'gallery:upload_pictures' album_name=album_name %}" class="pl-3"><b>Upload Pictures &nbsp;</b><i class="fa fa-upload"></i></a></li>
-            </ul>
-        </div>
-        <div class=" my-5 text-center">
-			{% with prev=get_previous %}
-			{% if prev %}			
-			<a href="{% url 'gallery:single_picture' album_name prev.pk %}">&laquo;Previous</a>
-			{% else %}
-			<a href="{% url 'gallery:single_album' picture.album %}">Back</a>
-			{% endif %}
-			{% endwith %} 
-			&nbsp;|&nbsp; 
-			{% with next=get_next %}
-			{% if next %}
-			<a href="{% url 'gallery:single_picture' album_name next.pk %}">Next&raquo;</a>
-			{% else %}
-			<a href="{% url 'gallery:albulms' picture.album %}}">Back</a>
-			{% endif %} 
-			{% endwith %}
-		</div>
-    {% else %}
-        <!-- add some space -->
-        <div class="my-3">&nbsp;</div>
-        <div class="text-center">
-			{% with prev=get_previous %}
-			{% if prev %}			
-			<a href="{% url 'gallery:single_picture' album_name prev.pk %}">&laquo;Previous</a>
-			{% else %}
-			<a href="{% url 'gallery:single_album' picture.album %}">Back</a>
-			{% endif %}
-			{% endwith %} 
-			&nbsp;|&nbsp; 
-			{% with next=get_next %}
-			{% if next %}
-			<a href="{% url 'gallery:single_picture' album_name next.pk %}">Next&raquo;</a>
-			{% else %}
-			<a href="{% url 'gallery:single_album' picture.album %}">Back</a>
-			{% endif %} 
-			{% endwith %}
-		</div>
-    {% endif %}
-{% endblock %}
-
 {% block content %}
 
 <div class="container py-5 bg-light">

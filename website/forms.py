@@ -3,6 +3,8 @@ from .models import ContactUs, Leaders, Patron
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+from crispy_forms.helper import FormHelper
+from countable_field.widgets import CountableWidget
 import datetime
 
 class ContactUsForm(forms.ModelForm):
@@ -43,7 +45,14 @@ class AddLeadersForm(forms.ModelForm):
 
 		if start_date >= end_date:
 			raise forms.ValidationError('Start Date should not be greater than End Date')
-		
+
+	def __init__(self, *args, **kwargs):
+		super(AddLeadersForm, self).__init__(*args, **kwargs)
+
+		self.fields['achievement'].widget = CountableWidget(attrs={'data-min-count': 100, 'data-max-count': 200})
+		self.fields['achievement'].help_text = "Must be between 100 and 200 words"
+		self.helper = FormHelper(self)
+		self.helper.help_text_inline = False		
 
 
 
@@ -82,6 +91,13 @@ class AddPatronForm(forms.ModelForm):
 		model = Patron
 		fields = '__all__'
 
+	def __init__(self, *args, **kwargs):
+		super(AddPatronForm, self).__init__(*args, **kwargs)
+
+		self.fields['contribution'].widget = CountableWidget(attrs={'data-min-count': 100, 'data-max-count': 200})
+		self.fields['comtribution'].help_text = "Must be between 100 and 200 words"
+		self.helper = FormHelper(self)
+		self.helper.help_text_inline = False
 
 class UpdateLeadersForm(forms.ModelForm):
 
@@ -93,8 +109,16 @@ class UpdateLeadersForm(forms.ModelForm):
 
 	class Meta:
 		model = Leaders
-		fields = ['first_name', 'last_name', 'other_name', 'achievement']
-	
+		fields = ['first_name', 'last_name', 'other_name', 'avatar', 'achievement']
+
+
+	def __init__(self, *args, **kwargs):
+		super(UpdateLeadersForm, self).__init__(*args, **kwargs)
+
+		self.fields['achievement'].widget = CountableWidget(attrs={'data-min-count': 100, 'data-max-count': 200})
+		self.fields['achievement'].help_text = "Must be between 100 and 200 words"
+		self.helper = FormHelper(self)
+		self.helper.help_text_inline = False	
 
 class UpdatePatronForm(forms.ModelForm):
 
@@ -106,8 +130,16 @@ class UpdatePatronForm(forms.ModelForm):
 
 	class Meta:
 		model = Patron
-		fields = fields = ['first_name', 'last_name', 'other_name', 'contribution']
+		fields = fields = ['first_name', 'last_name', 'other_name', 'avatar', 'contribution']
 
+
+	def __init__(self, *args, **kwargs):
+		super(UpdatePatronForm, self).__init__(*args, **kwargs)
+
+		self.fields['contribution'].widget = CountableWidget(attrs={'data-min-count': 100, 'data-max-count': 200})
+		self.fields['contribution'].help_text = "Must be between 100 and 200 words"
+		self.helper = FormHelper(self)
+		self.helper.help_text_inline = False
 
 
 

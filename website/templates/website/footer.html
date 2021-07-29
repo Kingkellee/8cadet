@@ -117,15 +117,6 @@
 <script src="{% static 'js/add_update_post.js' %}"></script>
 {% endif %}
 
-{% if view_url == 'add_leaders' or view_url == 'add_patrons' or view_url == 'leader_update_by_admin' or view_url == 'patron_update_by_admin' %}
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-<script>
-$(document).ready(function() {
-  $('.datepicker').datepicker();
-});
-</script>
-{% endif %}
 
 {% if view_url == 'post-detail'%}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js"></script>
