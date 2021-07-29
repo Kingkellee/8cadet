@@ -95,7 +95,7 @@ class AddPatronForm(forms.ModelForm):
 		super(AddPatronForm, self).__init__(*args, **kwargs)
 
 		self.fields['contribution'].widget = CountableWidget(attrs={'data-min-count': 100, 'data-max-count': 200})
-		self.fields['comtribution'].help_text = "Must be between 100 and 200 words"
+		self.fields['contribution'].help_text = "Must be between 100 and 200 words"
 		self.helper = FormHelper(self)
 		self.helper.help_text_inline = False
 
